@@ -1,29 +1,470 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ゲーム会社 部門・職種・責務 WBS</title>
+<title>ゲーム会社 組織・職種マップ（完全版）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#172033;--muted:#64748b;--line:#dce5f1;--navy:#1e3a8a;--paper:#fff;--wash:#f6f8fc}*{box-sizing:border-box}body{margin:0;min-width:320px;color:var(--ink);background:var(--wash);font-family:Inter,"Noto Sans JP","Yu Gothic UI",system-ui,sans-serif}header{color:#fff;padding:38px max(24px,calc((100vw - 1360px)/2));background:linear-gradient(120deg,#172554,#1d4ed8 70%,#0ea5e9)}h1{margin:0;font-size:clamp(1.5rem,3vw,2.25rem);letter-spacing:.01em}header p{margin:8px 0 0;opacity:.86}main{max-width:1360px;padding:24px;margin:auto}.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:20px}.toolbar span{margin-right:auto;color:var(--muted);font-size:.9rem}button{border:1px solid #bfd0eb;border-radius:8px;padding:8px 12px;cursor:pointer;color:#173a77;background:#fff;font:inherit;font-size:.88rem}button:hover{background:#eff6ff}#tree{overflow:auto;padding:8px;border:1px solid var(--line);border-radius:14px;background:var(--paper);box-shadow:0 12px 30px rgba(30,58,138,.08)}ul{list-style:none;margin:0;padding-left:28px}#tree>ul{padding-left:0}li{position:relative;padding:4px 0}li::before{content:"";position:absolute;top:0;bottom:-4px;left:-18px;border-left:1px solid var(--line)}li::after{content:"";position:absolute;top:20px;left:-18px;width:14px;border-top:1px solid var(--line)}li:last-child::before{bottom:auto;height:21px}#tree>ul>li::before,#tree>ul>li::after{display:none}.node{display:flex;align-items:flex-start;gap:7px;width:max-content;min-width:min(100%,420px);max-width:100%;border-radius:7px;padding:7px 9px;line-height:1.45}.node:hover{background:#eff6ff}.toggle{flex:0 0 20px;width:20px;height:20px;margin-top:1px;padding:0;border:0;border-radius:50%;background:#e8f0ff;color:#1d4ed8;font-weight:700;line-height:18px}.toggle:hover{background:#cfe0ff}.spacer{flex:0 0 20px}.label{overflow-wrap:anywhere}.depth-1>.node{padding:11px 13px;color:#fff;background:var(--navy);font-size:1.05rem;font-weight:750}.depth-2>.node{margin-top:10px;color:#123779;background:#e8f0ff;font-weight:750}.depth-3>.node{color:#1e40af;background:#f1f5ff;font-weight:650}.depth-4>.node{color:#334155;font-size:.94rem}.collapsed>ul{display:none}.collapsed>.node>.toggle{transform:rotate(-90deg)}@media(max-width:600px){header{padding:27px 18px}main{padding:16px 10px}#tree{padding:4px}ul{padding-left:20px}li::before,li::after{left:-13px}li::after{width:9px}.node{min-width:0}}
+:root{
+  --bg:#f6f5f2;
+  --panel:#ffffff;
+  --ink:#1c1b19;
+  --ink-soft:#56534d;
+  --ink-faint:#8b877f;
+  --line:#e2ded6;
+  --accent:#b4501f;
+  --accent-soft:#f3e4da;
+  --chip:#efece6;
+  --shadow:0 1px 2px rgba(28,27,25,.05), 0 8px 24px rgba(28,27,25,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#16151a; --panel:#1e1d23; --ink:#eceae5; --ink-soft:#b0aca4;
+    --ink-faint:#807c75; --line:#302e37; --accent:#e08a56; --accent-soft:#3a2a20;
+    --chip:#2a282f; --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#16151a; --panel:#1e1d23; --ink:#eceae5; --ink-soft:#b0aca4;
+  --ink-faint:#807c75; --line:#302e37; --accent:#e08a56; --accent-soft:#3a2a20;
+  --chip:#2a282f; --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Noto Sans JP","Hiragino Sans","Yu Gothic UI","Microsoft YaHei",system-ui,sans-serif;
+  line-height:1.65; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:clamp(24px,5vw,56px) clamp(16px,4vw,40px) 80px}
+
+header.page{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:32px}
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--accent); margin:0 0 10px
+}
+h1{font-size:clamp(26px,4vw,40px);line-height:1.25;margin:0 0 10px;letter-spacing:-.01em}
+.sub{color:var(--ink-soft);margin:0;font-size:15px}
+.stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.stat{background:var(--chip);border-radius:999px;padding:5px 13px;font-size:12.5px;color:var(--ink-soft)}
+.stat b{color:var(--ink);font-weight:700}
+
+.toolbar{
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+  position:sticky;top:0;z-index:5;
+  background:var(--bg);padding:12px 0;margin-bottom:8px;
+  border-bottom:1px solid var(--line);
+}
+#q{
+  flex:1 1 220px;min-width:0; background:var(--panel);
+  border:1px solid var(--line);border-radius:10px;
+  padding:9px 13px;font:inherit;font-size:14px;color:var(--ink);
+}
+#q:focus{outline:2px solid var(--accent);outline-offset:1px}
+.btn{
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:9px 14px;font:inherit;font-size:13.5px;color:var(--ink-soft);
+  cursor:pointer;white-space:nowrap
+}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.dl{border-color:var(--accent);color:var(--accent);font-weight:500}
+
+.dept{
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  box-shadow:var(--shadow);margin-top:20px;overflow:hidden
+}
+.dept > summary{
+  list-style:none;cursor:pointer;padding:18px 22px;
+  display:flex;align-items:baseline;gap:12px;
+}
+.dept > summary::-webkit-details-marker{display:none}
+.dept > summary:hover .dept-name{color:var(--accent)}
+.num{
+  font-family:"IBM Plex Mono",monospace;font-size:13px;
+  color:var(--accent);background:var(--accent-soft);
+  border-radius:6px;padding:3px 8px;flex:none
+}
+.dept-name{font-size:18px;font-weight:700;letter-spacing:-.01em}
+.dept-en{display:block;font-size:12.5px;font-weight:400;color:var(--ink-faint);letter-spacing:.02em}
+.caret{margin-left:auto;color:var(--ink-faint);font-size:12px;transition:transform .15s ease;flex:none}
+.dept[open] .caret{transform:rotate(90deg)}
+
+.roles{
+  display:grid;gap:14px;padding:0 22px 22px;
+  grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
+}
+.role{border-top:2px solid var(--line);padding-top:12px}
+.role h3{margin:0;font-size:14.5px;font-weight:700;line-height:1.45}
+.role .en{display:block;font-size:11.5px;font-weight:400;color:var(--ink-faint);margin-top:2px;font-family:"IBM Plex Mono",monospace}
+.role ul{margin:10px 0 0;padding:0;list-style:none}
+.role li{position:relative;padding-left:15px;font-size:13.5px;color:var(--ink-soft);margin-bottom:5px}
+.role li::before{
+  content:"";position:absolute;left:0;top:.66em;
+  width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.55
+}
+.role .sublist{list-style:none;margin:6px 0 8px 15px;padding:0}
+.role .sublist li{font-size:12.5px}
+.role .sublist li::before{background:var(--ink-faint)}
+mark{background:var(--accent-soft);color:var(--ink);border-radius:3px;padding:0 2px}
+.hidden{display:none !important}
+.empty{color:var(--ink-faint);font-size:14px;padding:32px 4px;text-align:center}
+footer{margin-top:44px;color:var(--ink-faint);font-size:12.5px;text-align:center}
 </style>
 </head>
 <body>
-<header><h1>ゲーム会社 部門・職種・責務 WBS</h1><p>Game Company · Organization, Roles & Responsibilities</p></header>
-<main>
-<div class="toolbar"><span>表示する階層を選択できます。</span><button type="button" data-depth="2">部門まで表示</button><button type="button" data-depth="3">職種まで表示</button><button type="button" data-depth="4">責務まで表示</button></div>
-<section id="tree" aria-label="Work breakdown structure"></section>
+<div class="wrap">
+
+<header class="page">
+  <p class="eyebrow">Organization / Role Map — Full Edition</p>
+  <h1>ゲーム会社 組織・職種マップ（完全版）</h1>
+  <p class="sub">全13部門 / 部門 → 職種 → 担当業務の three-tier structure</p>
+  <div class="stats">
+    <span class="stat"><b id="s-dept">0</b> 部門</span>
+    <span class="stat"><b id="s-role">0</b> 職種</span>
+    <span class="stat"><b id="s-task">0</b> 業務項目</span>
+  </div>
+</header>
+
+<div class="toolbar">
+  <input id="q" type="search" placeholder="部門・職種・業務でフィルタ（例: セキュリティ, API, 経済, 専門家）" autocomplete="off">
+  <button class="btn" id="expand">すべて展開</button>
+  <button class="btn" id="collapse">すべて折りたたむ</button>
+  <button class="btn dl" id="dl">⬇ HTMLを保存</button>
+</div>
+
+<main id="list">
+
+<details class="dept" open>
+  <summary><span class="num">01</span><span class="dept-name">経営・コーポレート部門<span class="dept-en">Corporate Management</span></span><span class="caret">▶</span></summary>
+  <div class="roles">
+    <div class="role"><h3>経営企画<span class="en">Corporate Planning</span></h3>
+      <ul><li>経営戦略・事業計画策定</li><li>中期経営計画・年度計画管理</li><li>経営KPI・業績分析</li><li>経営会議・意思決定支援</li></ul></div>
+    <div class="role"><h3>法務・コンプライアンス<span class="en">Legal &amp; Compliance</span></h3>
+      <ul><li>契約・法務審査管理</li><li>法令・規制対応</li><li>コンプライアンス・リスク管理</li><li>知的財産・ライセンス管理</li></ul></div>
+    <div class="role"><h3>財務・会計<span class="en">Finance &amp; Accounting</span></h3>
+      <ul><li>財務計画・資金管理</li><li>予算・実績管理</li><li>会計・決算管理</li><li>税務・財務報告管理</li></ul></div>
+    <div class="role"><h3>人事<span class="en">Human Resources</span></h3>
+      <ul><li>人事戦略・人員計画</li><li>採用・人材配置管理</li><li>評価・報酬・労務管理</li><li>人材育成・組織開発</li></ul></div>
+    <div class="role"><h3>総務<span class="en">General Affairs</span></h3>
+      <ul><li>オフィス・設備・資産管理</li><li>社内規程・文書管理</li><li>株主総会・社内行事運営</li><li>庶務・社内環境管理</li></ul></div>
+    <div class="role"><h3>社内IT<span class="en">Corporate IT</span></h3>
+      <ul><li>社内IT基盤・システム管理</li><li>アカウント・端末・IT資産管理</li><li>社内ネットワーク・業務環境管理</li><li>ITヘルプデスク・ユーザーサポート</li></ul></div>
+  </div>
+</details>
+
+<details class="dept" open>
+  <summary><span class="num">02</span><span class="dept-name">プロダクト部門<span class="dept-en">Product</span></span><span class="caret">▶</span></summary>
+  <div class="roles">
+    <div class="role"><h3>プロダクトマネージャー<span class="en">Product Manager</span></h3>
+      <ul><li>プロダクトビジョン・ロードマップ管理</li><li>プロダクト要件・優先順位管理</li><li>ユーザー価値・プロダクト品質管理</li><li>プロダクトKPI・成果管理</li></ul></div>
+    <div class="role"><h3>プロダクトディレクター<span class="en">Product Director</span></h3>
+      <ul><li>プロダクト戦略・事業方針策定</li><li>プロダクトポートフォリオ・ロードマップ管理</li><li>プロダクト目標・成果管理</li><li>プロダクト組織・開発方針管理</li></ul></div>
+  </div>
+</details>
+
+<details class="dept" open>
+  <summary><span class="num">03</span><span class="dept-name">プロジェクト管理部門<span class="dept-en">Project Management</span></span><span class="caret">▶</span></summary>
+  <div class="roles">
+    <div class="role"><h3>プロジェクトマネージャー<span class="en">Project Manager</span></h3>
+      <ul><li>プロジェクト計画・進行管理</li><li>スケジュール・マイルストーン管理</li><li>リソース・予算管理</li><li>リスク・課題管理</li><li>プロジェクト成果・品質管理</li></ul></div>
+    <div class="role"><h3>プロジェクトコーディネーター<span class="en">Project Coordinator</span></h3>
+      <ul><li>プロジェクト進行・タスク管理</li><li>会議・情報・ドキュメント管理</li><li>チーム間コミュニケーション・調整</li><li>スケジュール・進捗情報管理</li></ul></div>
+  </div>
+</details>
+
+<details class="dept" open>
+  <summary><span class="num">04</span><span class="dept-name">ゲーム企画・デザイン部門<span class="dept-en">Game Design</span></span><span class="caret">▶</span></summary>
+  <div class="roles">
+    <div class="role"><h3>ゲームデザイナー<span class="en">Game Designer</span></h3>
+      <ul><li>ゲーム全体設計・ゲーム体験設計</li><li>コアゲームループ・プレイサイクル設計</li><li>ゲームルール・ゲーム仕様設計</li><li>ゲームプレイ・機能要件管理</li></ul></div>
+    <div class="role"><h3>システムデザイナー<span class="en">System Designer</span></h3>
+      <ul><li>ゲームシステム・ルール設計</li><li>成長・進行システム設計</li><li>アイテム・スキル・機能仕様設計</li><li>システム間連携・整合性管理</li></ul></div>
+    <div class="role"><h3>レベルデザイナー<span class="en">Level Designer</span></h3>
+      <ul><li>レベル構成・ゲームプレイ空間設計</li><li>ステージ・マップ・導線設計</li><li>敵・ギミック・配置設計</li><li>難易度・プレイ体験調整</li></ul></div>
+    <div class="role"><h3>バトルデザイナー<span class="en">Battle Designer</span></h3>
+      <ul><li>バトルシステム・戦闘ルール設計</li><li>プレイヤー・敵・ボス仕様設計</li><li>スキル・武器・戦闘パラメータ設計</li><li>バトルバランス・難易度調整</li></ul></div>
+    <div class="role"><h3>エコノミーデザイナー<span class="en">Economy Designer</span></h3>
+      <ul><li>ゲーム内経済・通貨システム設計</li><li>アイテム・報酬・価格設計</li><li>収益・消費・供給設計</li><li>経済バランス・インフレーション管理</li></ul></div>
+    <div class="role"><h3>ナラティブデザイナー<span class="en">Narrative Designer</span></h3>
+      <ul><li>ストーリー・ナラティブ構造設計</li><li>クエスト・会話・イベント設計</li><li>キャラクター・世界観設定連携</li><li>ナラティブ演出・ゲームプレイ統合</li></ul></div>
+    <div class="role"><h3>テクニカルデザイナー<span class="en">Technical Designer</span></h3>
+      <ul><li>ゲーム仕様・技術要件設計</li><li>デザインデータ・ゲームロジック設計</li><li>デザイナー・エンジニア連携</li><li>プロトタイプ・技術検証</li></ul></div>
+  </div>
+</details>
+
+<details class="dept" open>
+  <summary><span class="num">05</span><span class="dept-name">アート・UX部門<span class="dept-en">Art &amp; UX</span></span><span class="caret">▶</span></summary>
+  <div class="roles">
+    <div class="role"><h3>アートディレクター<span class="en">Art Director</span></h3>
+      <ul><li>アートビジョン・ビジュアル方針策定</li><li>アート品質・表現基準管理</li><li>アート制作・レビュー管理</li><li>アートチーム・外部制作管理</li></ul></div>
+    <div class="role"><h3>コンセプトアーティスト<span class="en">Concept Artist</span></h3>
+      <ul><li>世界観・ビジュアルコンセプト設計</li><li>キャラクター・環境コンセプト制作</li><li>ビジュアルリファレンス・デザイン開発</li><li>コンセプト・アート資料作成</li></ul></div>
+    <div class="role"><h3>キャラクターアーティスト<span class="en">Character Artist</span></h3>
+      <ul><li>キャラクターモデル・デザイン制作</li><li>キャラクター衣装・装備制作</li><li>キャラクターマテリアル・テクスチャ制作</li><li>キャラクターアセット品質管理</li></ul></div>
+    <div class="role"><h3>環境アーティスト<span class="en">Environment Artist</span></h3>
+      <ul><li>環境モデル・アセット制作</li><li>建築・地形・背景アセット制作</li><li>マテリアル・テクスチャ制作</li><li>環境アセット品質管理</li></ul></div>
+    <div class="role"><h3>レベルアーティスト<span class="en">Level Artist</span></h3>
+      <ul><li>レベルビジュアル・景観設計</li><li>地形・建築・背景配置</li><li>ライティング・環境演出</li><li>レベルアート品質・最適化</li></ul></div>
+    <div class="role"><h3>UIアーティスト<span class="en">UI Artist</span></h3>
+      <ul><li>UIビジュアルデザイン</li><li>UIグラフィック・アイコン制作</li><li>UIレイアウト・ビジュアル表現設計</li><li>UIアセット品質管理</li></ul></div>
+    <div class="role"><h3>UXデザイナー<span class="en">UX Designer</span></h3>
+      <ul><li>ユーザー体験・UX設計</li><li>ユーザーフロー・画面構成設計</li><li>操作性・情報設計</li><li>UX検証・改善</li></ul></div>
+    <div class="role"><h3>アニメーター<span class="en">Animator</span></h3>
+      <ul><li>キャラクター・オブジェクトアニメーション制作</li><li>モーション・演出制作</li><li>リギング・アニメーション設定</li><li>アニメーション品質・実装連携</li></ul></div>
+    <div class="role"><h3>VFXアーティスト<span class="en">VFX Artist</span></h3>
+      <ul><li>エフェクト・視覚演出制作</li><li>パーティクル・シェーダー表現制作</li><li>戦闘・スキル・環境エフェクト制作</li><li>VFX品質・性能最適化</li></ul></div>
+    <div class="role"><h3>テクニカルアーティスト<span class="en">Technical Artist</span></h3>
+      <ul><li>アートパイプライン・制作環境構築</li><li>シェーダー・マテリアル技術支援</li><li>アセット最適化・技術検証</li><li>アーティスト向けツール・ワークフロー改善</li></ul></div>
+  </div>
+</details>
+
+<details class="dept" open>
+  <summary><span class="num">06</span><span class="dept-name">クライアント開発部門<span class="dept-en">Client Engineering</span></span><span class="caret">▶</span></summary>
+  <div class="roles">
+    <div class="role"><h3>ゲームプレイエンジニア<span class="en">Gameplay Engineer</span></h3>
+      <ul><li>ゲームプレイロジック実装</li><li>キャラクター・操作機能実装</li><li>ゲームシステム・インタラクション実装</li><li>ゲームプレイ性能・安定性管理</li></ul></div>
+    <div class="role"><h3>UIエンジニア<span class="en">UI Engineer</span></h3>
+      <ul><li>UIシステム・画面機能実装</li><li>UIインタラクション・入力処理実装</li><li>UIアニメーション・トランジション実装</li><li>UI性能・表示品質管理</li></ul></div>
+    <div class="role"><h3>グラフィックスエンジニア<span class="en">Graphics Engineer</span></h3>
+      <ul><li>レンダリング・グラフィックス機能開発</li><li>シェーダー・マテリアル機能開発</li><li>ライティング・ポストエフェクト実装</li><li>グラフィックス性能・描画品質管理</li></ul></div>
+    <div class="role"><h3>オーディオエンジニア<span class="en">Audio Engineer</span></h3>
+      <ul><li>オーディオシステム開発</li><li>サウンド再生・制御機能実装</li><li>オーディオミキシング・エフェクト実装</li><li>オーディオ性能・品質管理</li></ul></div>
+    <div class="role"><h3>ツールエンジニア<span class="en">Tools Engineer</span></h3>
+      <ul><li>開発ツール・エディタ機能開発</li><li>コンテンツ制作・データ処理ツール開発</li><li>アセット・ワークフロー自動化</li><li>開発環境・ツール性能管理</li></ul></div>
+    <div class="role"><h3>パフォーマンスエンジニア<span class="en">Performance Engineer</span></h3>
+      <ul><li>クライアント性能計測・分析</li><li>CPU・GPU・メモリ性能最適化</li><li>ロード時間・フレームレート最適化</li><li>性能ボトルネック・リグレッション管理</li></ul></div>
+    <div class="role"><h3>プラットフォームエンジニア<span class="en">Platform Integration Engineer</span></h3>
+      <ul><li>プラットフォーム機能・SDK統合</li><li>OS・デバイス・ハードウェア対応</li><li>プラットフォームAPI・外部サービス統合</li><li>プラットフォーム固有機能・互換性管理</li></ul></div>
+  </div>
+</details>
+
+<details class="dept" open>
+  <summary><span class="num">07</span><span class="dept-name">ゲームサーバー・バックエンド部門<span class="dept-en">Game Server &amp; Backend</span></span><span class="caret">▶</span></summary>
+  <div class="roles">
+    <div class="role"><h3>ゲームサーバーエンジニア<span class="en">Game Server Engineer</span></h3>
+      <ul><li>ゲームロジック・ゲーム状態管理</li><li>マルチプレイヤー通信・セッション管理</li><li>ゲームワールド・プレイヤー状態管理</li><li>サーバー性能・スケーラビリティ管理</li></ul></div>
+    <div class="role"><h3>バックエンドエンジニア<span class="en">Backend Engineer</span></h3>
+      <ul><li>API・バックエンドサービス開発</li><li>アカウント・認証・権限管理</li><li>ソーシャル・コミュニケーション機能開発</li><li>ショップ・決済・課金機能開発</li><li>外部サービス・プラットフォーム連携</li></ul></div>
+    <div class="role"><h3>データベースエンジニア<span class="en">Database Engineer</span></h3>
+      <ul><li>データベース・スキーマ設計</li><li>データモデル・データ整合性管理</li><li>クエリ・データアクセス性能管理</li><li>データ可用性・バックアップ管理</li><li>データ移行・容量管理</li></ul></div>
+  </div>
+</details>
+
+<details class="dept" open>
+  <summary><span class="num">08</span><span class="dept-name">インフラ・プラットフォーム部門<span class="dept-en">Infrastructure &amp; Platform</span></span><span class="caret">▶</span></summary>
+  <div class="roles">
+    <div class="role"><h3>インフラエンジニア<span class="en">Infrastructure Engineer</span></h3>
+      <ul><li>サーバー・OS・ミドルウェア基盤管理</li><li>コンピューティング・ストレージ基盤管理</li><li>システム可用性・キャパシティ管理</li></ul></div>
+    <div class="role"><h3>クラウドエンジニア<span class="en">Cloud Engineer</span></h3>
+      <ul><li>クラウド環境設計・構築</li><li>クラウドリソース・サービス管理</li><li>クラウドセキュリティ・コスト管理</li></ul></div>
+    <div class="role"><h3>ネットワークエンジニア<span class="en">Network Engineer</span></h3>
+      <ul><li>ネットワーク設計・構築</li><li>通信・接続・トラフィック管理</li><li>ネットワーク可用性・性能管理</li></ul></div>
+    <div class="role"><h3>DevOpsエンジニア<span class="en">DevOps Engineer</span></h3>
+      <ul><li>CI/CDパイプライン設計・運用</li><li>ビルド・デプロイ自動化</li><li>開発・運用プロセス自動化</li></ul></div>
+    <div class="role"><h3>SREエンジニア<span class="en">Site Reliability Engineer</span></h3>
+      <ul><li>サービス信頼性・可用性管理</li><li>障害対応・インシデント管理</li><li>オブザーバビリティ・性能管理</li><li>サービスレベル管理</li></ul></div>
+    <div class="role"><h3>プラットフォームエンジニア<span class="en">Platform Engineer</span></h3>
+      <ul><li>開発者向けプラットフォーム設計・開発</li><li>開発環境・共通ツール基盤管理</li><li>セルフサービス・開発者体験向上</li></ul></div>
+  </div>
+</details>
+
+<details class="dept" open>
+  <summary><span class="num">09</span><span class="dept-name">データ・AI部門<span class="dept-en">Data &amp; AI</span></span><span class="caret">▶</span></summary>
+  <div class="roles">
+    <div class="role"><h3>データエンジニア<span class="en">Data Engineer</span></h3>
+      <ul><li>データ収集・データパイプライン開発</li><li>データ処理・データ変換基盤開発</li><li>データ品質・データ連携管理</li></ul></div>
+    <div class="role"><h3>データアナリスト<span class="en">Data Analyst</span></h3>
+      <ul><li>ゲーム・プロダクトデータ分析</li><li>KPI・指標分析</li><li>ダッシュボード・レポート作成</li></ul></div>
+    <div class="role"><h3>データサイエンティスト<span class="en">Data Scientist</span></h3>
+      <ul><li>統計分析・予測モデル開発</li><li>ユーザー行動・ゲームデータ分析</li><li>実験・効果測定</li></ul></div>
+    <div class="role"><h3>機械学習エンジニア<span class="en">Machine Learning Engineer</span></h3>
+      <ul><li>機械学習モデル開発・実装</li><li>モデル学習・推論基盤開発</li><li>モデル性能・運用管理</li></ul></div>
+    <div class="role"><h3>AIエンジニア<span class="en">AI Engineer</span></h3>
+      <ul><li>AI機能開発・システム統合</li><li>生成AI・AIエージェント活用</li><li>AIサービス性能・品質管理</li></ul></div>
+    <div class="role"><h3>MLプラットフォームエンジニア<span class="en">ML Platform Engineer</span></h3>
+      <ul><li>ML開発・実験環境構築</li><li>モデル学習・デプロイ基盤構築</li><li>MLパイプライン・運用基盤管理</li></ul></div>
+    <div class="role"><h3>データアーキテクト<span class="en">Data Architect</span></h3>
+      <ul><li>データアーキテクチャ設計</li><li>データモデル・データ基盤設計</li><li>データ統合・データ標準設計</li></ul></div>
+    <div class="role"><h3>AIリサーチャー<span class="en">AI Researcher</span></h3>
+      <ul><li>AI・機械学習アルゴリズム研究</li><li>モデル・学習手法研究</li><li>AI技術評価・技術検証</li></ul></div>
+    <div class="role"><h3>データガバナンススペシャリスト<span class="en">Data Governance Specialist</span></h3>
+      <ul><li>データガバナンス・データポリシー管理</li><li>データ品質・メタデータ管理</li><li>データアクセス・利用ルール管理</li></ul></div>
+  </div>
+</details>
+
+<details class="dept" open>
+  <summary><span class="num">10</span><span class="dept-name">QA・セキュリティ部門<span class="dept-en">QA &amp; Security</span></span><span class="caret">▶</span></summary>
+  <div class="roles">
+    <div class="role"><h3>QAエンジニア<span class="en">QA Engineer</span></h3>
+      <ul><li>テスト計画・テスト設計</li><li>機能・システム品質検証</li><li>不具合管理・品質改善</li></ul></div>
+    <div class="role"><h3>テスト自動化エンジニア<span class="en">Test Automation Engineer</span></h3>
+      <ul><li>テスト自動化基盤開発</li><li>自動テスト・テストスイート構築</li><li>テスト実行・結果管理</li><li>テスト環境・ツール管理</li></ul></div>
+    <div class="role"><h3>品質アナリスト<span class="en">Quality Analyst</span></h3>
+      <ul><li>品質指標・品質データ分析</li><li>不具合傾向・品質リスク分析</li><li>品質改善施策・評価</li></ul></div>
+    <div class="role"><h3>セキュリティエンジニア<span class="en">Security Engineer</span></h3>
+      <ul><li>システム・アプリケーションセキュリティ管理</li><li>セキュリティ設計・実装支援</li><li>セキュリティ監視・インシデント対応</li><li>セキュリティ対策・改善</li></ul></div>
+    <div class="role"><h3>脆弱性管理スペシャリスト<span class="en">Vulnerability Management Specialist</span></h3>
+      <ul><li>脆弱性情報・脆弱性管理</li><li>脆弱性診断・リスク評価</li><li>パッチ・修正対応管理</li><li>脆弱性対応状況・改善管理</li></ul></div>
+    <div class="role"><h3>アンチチートエンジニア<span class="en">Anti-Cheat Engineer</span></h3>
+      <ul><li>チート検知・防止システム開発</li><li>不正クライアント・改ざん検知</li><li>ゲーム内不正行為分析</li><li>アンチチート性能・精度改善</li></ul></div>
+    <div class="role"><h3>不正対策スペシャリスト<span class="en">Fraud Prevention Specialist</span></h3>
+      <ul><li>不正利用・不正取引検知</li><li>不正行動・リスク分析</li><li>不正対策ルール・検知モデル管理</li><li>不正利用対応・被害防止</li></ul></div>
+    <div class="role"><h3>プライバシーエンジニア<span class="en">Privacy Engineer</span></h3>
+      <ul><li>個人情報保護・プライバシー設計</li><li>データ収集・利用・保存管理</li><li>プライバシーリスク評価</li><li>データ保護・アクセス制御管理</li></ul></div>
+  </div>
+</details>
+
+<details class="dept" open>
+  <summary><span class="num">11</span><span class="dept-name">ゲーム運営・カスタマー部門<span class="dept-en">Game Operations &amp; Customer</span></span><span class="caret">▶</span></summary>
+  <div class="roles">
+    <div class="role"><h3>ゲーム運営担当<span class="en">Game Operations Specialist</span></h3>
+      <ul><li>ゲーム運営計画・運営管理</li><li>日常運営・サービス状態管理</li><li>運営課題・問題対応</li><li>運営関連部門・外部パートナー調整</li></ul></div>
+    <div class="role"><h3>ライブサービス運営担当<span class="en">Live Service Operations Specialist</span></h3>
+      <ul><li>ライブサービス運営計画・実行</li><li>サービス更新・バージョン運用</li><li>プレイヤー動向・サービス状況管理</li><li>継続運営・サービス改善</li></ul></div>
+    <div class="role"><h3>イベント・コンテンツ運営担当<span class="en">Event &amp; Content Operations Specialist</span></h3>
+      <ul><li>イベント運営計画・実行</li><li>ゲームコンテンツ配信・更新</li><li>イベント設定・報酬管理</li><li>イベント実績・効果分析</li></ul></div>
+    <div class="role"><h3>ゲームエコノミー運営担当<span class="en">Game Economy Operations Specialist</span></h3>
+      <ul><li>ゲーム内経済・通貨運営</li><li>アイテム・報酬・価格管理</li><li>経済状況・インフレーション管理</li><li>経済データ・バランス分析</li></ul></div>
+    <div class="role"><h3>コミュニティマネージャー<span class="en">Community Manager</span></h3>
+      <ul><li>プレイヤーコミュニティ運営</li><li>コミュニティ情報・コミュニケーション管理</li><li>プレイヤーフィードバック収集・分析</li><li>コミュニティ施策・エンゲージメント管理</li></ul></div>
+    <div class="role"><h3>カスタマーサポート担当<span class="en">Customer Support Specialist</span></h3>
+      <ul><li>プレイヤー問い合わせ・サポート対応</li><li>アカウント・決済・ゲーム障害対応</li><li>問い合わせ・対応履歴管理</li><li>FAQ・サポートナレッジ管理</li></ul></div>
+    <div class="role"><h3>運営アナリスト<span class="en">Operations Analyst</span></h3>
+      <ul><li>運営データ・サービス状況分析</li><li>KPI・ユーザー行動分析</li><li>イベント・施策効果分析</li><li>運営改善・意思決定支援</li></ul></div>
+  </div>
+</details>
+
+<details class="dept" open>
+  <summary><span class="num">12</span><span class="dept-name">マーケティング・ビジネス部門<span class="dept-en">Marketing &amp; Business</span></span><span class="caret">▶</span></summary>
+  <div class="roles">
+    <div class="role"><h3>マーケティング担当<span class="en">Marketing Specialist</span></h3>
+      <ul><li>マーケティング戦略・施策計画</li><li>ターゲット・市場分析</li><li>マーケティング施策・キャンペーン実行</li><li>ブランド・プロモーション管理</li></ul></div>
+    <div class="role"><h3>ユーザーアクイジション担当<span class="en">User Acquisition Specialist</span></h3>
+      <ul><li>ユーザー獲得戦略・施策計画</li><li>広告運用・メディア管理</li><li>獲得コスト・広告効果管理</li><li>ユーザー獲得・継続率改善</li></ul></div>
+    <div class="role"><h3>SEO・ASO担当<span class="en">SEO / ASO Specialist</span></h3>
+      <ul><li>SEO・ASO戦略・施策計画</li><li>Web・ストア検索最適化</li><li>キーワード・コンテンツ最適化</li><li>検索流入・ストアパフォーマンス分析</li></ul></div>
+    <div class="role"><h3>PR・広報担当<span class="en">Public Relations Specialist</span></h3>
+      <ul><li>PR戦略・広報計画</li><li>プレスリリース・メディア対応</li><li>メディア・インフルエンサー関係管理</li><li>ブランド・企業情報発信</li></ul></div>
+    <div class="role"><h3>セールス担当<span class="en">Sales Specialist</span></h3>
+      <ul><li>営業戦略・販売計画</li><li>顧客・取引先開拓</li><li>商談・契約・販売管理</li><li>売上・顧客関係管理</li></ul></div>
+    <div class="role"><h3>ビジネスデベロップメント担当<span class="en">Business Development Specialist</span></h3>
+      <ul><li>新規事業・ビジネス機会開発</li><li>市場・事業機会分析</li><li>事業計画・ビジネスモデル開発</li><li>新規事業・サービス立ち上げ</li></ul></div>
+    <div class="role"><h3>パートナーシップ担当<span class="en">Partnerships Specialist</span></h3>
+      <ul><li>パートナー戦略・協業計画</li><li>パートナー候補・関係管理</li><li>協業案件・契約管理</li><li>パートナー施策・成果管理</li></ul></div>
+    <div class="role"><h3>マネタイズ担当<span class="en">Monetization Specialist</span></h3>
+      <ul><li>マネタイズ戦略・収益モデル設計</li><li>課金・商品・価格戦略</li><li>収益・コンバージョン分析</li><li>マネタイズ施策・収益改善</li></ul></div>
+    <div class="role"><h3>マーケティングアナリスト<span class="en">Marketing Analyst</span></h3>
+      <ul><li>マーケティングデータ・市場分析</li><li>ユーザー獲得・広告効果分析</li><li>キャンペーン・施策効果分析</li><li>マーケティングKPI・意思決定支援</li></ul></div>
+  </div>
+</details>
+
+<details class="dept" open>
+  <summary><span class="num">13</span><span class="dept-name">外部専門家部門<span class="dept-en">External Expert Management</span></span><span class="caret">▶</span></summary>
+  <div class="roles">
+    <div class="role"><h3>外部専門家管理<span class="en">External Expert Management</span></h3>
+      <ul>
+        <li>専門領域（Domain Expertise）
+          <ul class="sublist">
+            <li>法務専門家（Legal Expert）</li>
+            <li>医療専門家（Medical Expert）</li>
+            <li>野球専門家（Baseball Expert）</li>
+            <li>自動車競技専門家（Auto racing Expert）</li>
+            <li>不動産専門家（Real Estate Expert）</li>
+            <li>家具専門家（Furniture Expert）</li>
+          </ul>
+        </li>
+        <li>専門家選定・依頼</li>
+        <li>専門相談・監修</li>
+        <li>専門意見・成果管理</li>
+      </ul>
+    </div>
+  </div>
+</details>
+
+<p class="empty hidden" id="empty">該当する部門・職種・業務が見つかりませんでした。</p>
 </main>
-<script id="plantuml-source" type="application/json">"@startwbs\n\n- ゲーム会社（Game Company）部門＆職種＆責務\n    \n\n** 01. 経営・コーポレート部門（Corporate Management）\n\n*** 経営企画（Corporate Planning）  \n**** 経営戦略・事業計画策定  \n**** 中期経営計画・年度計画管理  \n**** 経営KPI・業績分析  \n**** 経営会議・意思決定支援\n\n*** 法務・コンプライアンス（Legal & Compliance）  \n**** 契約・法務審査管理  \n**** 法令・規制対応  \n**** コンプライアンス・リスク管理  \n**** 知的財産・ライセンス管理\n\n*** 財務・会計（Finance & Accounting）  \n**** 財務計画・資金管理  \n**** 予算・実績管理  \n**** 会計・決算管理  \n**** 税務・財務報告管理\n\n*** 人事（Human Resources）  \n**** 人事戦略・人員計画  \n**** 採用・人材配置管理  \n**** 評価・報酬・労務管理  \n**** 人材育成・組織開発\n\n*** 総務（General Affairs）  \n**** オフィス・設備・資産管理  \n**** 社内規程・文書管理  \n**** 株主総会・社内行事運営  \n**** 庶務・社内環境管理\n\n*** 社内IT（Corporate IT）  \n**** 社内IT基盤・システム管理  \n**** アカウント・端末・IT資産管理  \n**** 社内ネットワーク・業務環境管理  \n**** ITヘルプデスク・ユーザーサポート\n\n** 02. プロダクト部門（Product）\n\n*** プロダクトマネージャー（Product Manager）  \n**** プロダクトビジョン・ロードマップ管理  \n**** プロダクト要件・優先順位管理  \n**** ユーザー価値・プロダクト品質管理  \n**** プロダクトKPI・成果管理\n\n*** プロダクトディレクター（Product Director）  \n**** プロダクト戦略・事業方針策定  \n**** プロダクトポートフォリオ・ロードマップ管理  \n**** プロダクト目標・成果管理  \n**** プロダクト組織・開発方針管理\n\n** 03. プロジェクト管理部門（Project Management）\n\n*** プロジェクトマネージャー（Project Manager）  \n**** プロジェクト計画・進行管理  \n**** スケジュール・マイルストーン管理  \n**** リソース・予算管理  \n**** リスク・課題管理  \n**** プロジェクト成果・品質管理\n\n*** プロジェクトコーディネーター（Project Coordinator）  \n**** プロジェクト進行・タスク管理  \n**** 会議・情報・ドキュメント管理  \n**** チーム間コミュニケーション・調整  \n**** スケジュール・進捗情報管理\n\n** 04. ゲーム企画・デザイン部門（Game Design）\n\n*** ゲームデザイナー（Game Designer）  \n**** ゲーム全体設計・ゲーム体験設計  \n**** コアゲームループ・プレイサイクル設計  \n**** ゲームルール・ゲーム仕様設計  \n**** ゲームプレイ・機能要件管理\n\n*** システムデザイナー（System Designer）  \n**** ゲームシステム・ルール設計  \n**** 成長・進行システム設計  \n**** アイテム・スキル・機能仕様設計  \n**** システム間連携・整合性管理\n\n*** レベルデザイナー（Level Designer）  \n**** レベル構成・ゲームプレイ空間設計  \n**** ステージ・マップ・導線設計  \n**** 敵・ギミック・配置設計  \n**** 難易度・プレイ体験調整\n\n*** バトルデザイナー（Battle Designer）  \n**** バトルシステム・戦闘ルール設計  \n**** プレイヤー・敵・ボス仕様設計  \n**** スキル・武器・戦闘パラメータ設計  \n**** バトルバランス・難易度調整\n\n*** エコノミーデザイナー（Economy Designer）  \n**** ゲーム内経済・通貨システム設計  \n**** アイテム・報酬・価格設計  \n**** 収益・消費・供給設計  \n**** 経済バランス・インフレーション管理\n\n*** ナラティブデザイナー（Narrative Designer）  \n**** ストーリー・ナラティブ構造設計  \n**** クエスト・会話・イベント設計  \n**** キャラクター・世界観設定連携  \n**** ナラティブ演出・ゲームプレイ統合\n\n*** テクニカルデザイナー（Technical Designer）  \n**** ゲーム仕様・技術要件設計  \n**** デザインデータ・ゲームロジック設計  \n**** デザイナー・エンジニア連携  \n**** プロトタイプ・技術検証\n\n** 05. アート・UX部門（Art & UX）\n\n*** アートディレクター（Art Director）  \n**** アートビジョン・ビジュアル方針策定  \n**** アート品質・表現基準管理  \n**** アート制作・レビュー管理  \n**** アートチーム・外部制作管理\n\n*** コンセプトアーティスト（Concept Artist）  \n**** 世界観・ビジュアルコンセプト設計  \n**** キャラクター・環境コンセプト制作  \n**** ビジュアルリファレンス・デザイン開発  \n**** コンセプト・アート資料作成\n\n*** キャラクターアーティスト（Character Artist）  \n**** キャラクターモデル・デザイン制作  \n**** キャラクター衣装・装備制作  \n**** キャラクターマテリアル・テクスチャ制作  \n**** キャラクターアセット品質管理\n\n*** 環境アーティスト（Environment Artist）  \n**** 環境モデル・アセット制作  \n**** 建築・地形・背景アセット制作  \n**** マテリアル・テクスチャ制作  \n**** 環境アセット品質管理\n\n*** レベルアーティスト（Level Artist）  \n**** レベルビジュアル・景観設計  \n**** 地形・建築・背景配置  \n**** ライティング・環境演出  \n**** レベルアート品質・最適化\n\n*** UIアーティスト（UI Artist）  \n**** UIビジュアルデザイン  \n**** UIグラフィック・アイコン制作  \n**** UIレイアウト・ビジュアル表現設計  \n**** UIアセット品質管理\n\n*** UXデザイナー（UX Designer）  \n**** ユーザー体験・UX設計  \n**** ユーザーフロー・画面構成設計  \n**** 操作性・情報設計  \n**** UX検証・改善\n\n*** アニメーター（Animator）  \n**** キャラクター・オブジェクトアニメーション制作  \n**** モーション・演出制作  \n**** リギング・アニメーション設定  \n**** アニメーション品質・実装連携\n\n*** VFXアーティスト（VFX Artist）  \n**** エフェクト・視覚演出制作  \n**** パーティクル・シェーダー表現制作  \n**** 戦闘・スキル・環境エフェクト制作  \n**** VFX品質・性能最適化\n\n*** テクニカルアーティスト（Technical Artist）  \n**** アートパイプライン・制作環境構築  \n**** シェーダー・マテリアル技術支援  \n**** アセット最適化・技術検証  \n**** アーティスト向けツール・ワークフロー改善\n\n** 06. クライアント開発部門（Client Engineering）\n\n*** ゲームプレイエンジニア（Gameplay Engineer）  \n**** ゲームプレイロジック実装  \n**** キャラクター・操作機能実装  \n**** ゲームシステム・インタラクション実装  \n**** ゲームプレイ性能・安定性管理\n\n*** UIエンジニア（UI Engineer）  \n**** UIシステム・画面機能実装  \n**** UIインタラクション・入力処理実装  \n**** UIアニメーション・トランジション実装  \n**** UI性能・表示品質管理\n\n*** グラフィックスエンジニア（Graphics Engineer）  \n**** レンダリング・グラフィックス機能開発  \n**** シェーダー・マテリアル機能開発  \n**** ライティング・ポストエフェクト実装  \n**** グラフィックス性能・描画品質管理\n\n*** オーディオエンジニア（Audio Engineer）  \n**** オーディオシステム開発  \n**** サウンド再生・制御機能実装  \n**** オーディオミキシング・エフェクト実装  \n**** オーディオ性能・品質管理\n\n*** ツールエンジニア（Tools Engineer）  \n**** 開発ツール・エディタ機能開発  \n**** コンテンツ制作・データ処理ツール開発  \n**** アセット・ワークフロー自動化  \n**** 開発環境・ツール性能管理\n\n*** パフォーマンスエンジニア（Performance Engineer）  \n**** クライアント性能計測・分析  \n**** CPU・GPU・メモリ性能最適化  \n**** ロード時間・フレームレート最適化  \n**** 性能ボトルネック・リグレッション管理\n\n*** プラットフォームエンジニア（Platform Integration Engineer）  \n**** プラットフォーム機能・SDK統合  \n**** OS・デバイス・ハードウェア対応  \n**** プラットフォームAPI・外部サービス統合  \n**** プラットフォーム固有機能・互換性管理\n\n** 07. ゲームサーバー・バックエンド部門（Game Server & Backend）  \n*** ゲームサーバーエンジニア（Game Server Engineer）  \n**** ゲームロジック・ゲーム状態管理  \n**** マルチプレイヤー通信・セッション管理  \n**** ゲームワールド・プレイヤー状態管理  \n**** サーバー性能・スケーラビリティ管理\n\n*** バックエンドエンジニア（Backend Engineer）  \n**** API・バックエンドサービス開発  \n**** アカウント・認証・権限管理  \n**** ソーシャル・コミュニケーション機能開発  \n**** ショップ・決済・課金機能開発  \n**** 外部サービス・プラットフォーム連携\n\n*** データベースエンジニア（Database Engineer）  \n**** データベース・スキーマ設計  \n**** データモデル・データ整合性管理  \n**** クエリ・データアクセス性能管理  \n**** データ可用性・バックアップ管理  \n**** データ移行・容量管理\n\n** 08. インフラ・プラットフォーム部門（Infrastructure & Platform）  \n*** インフラエンジニア（Infrastructure Engineer）  \n**** サーバー・OS・ミドルウェア基盤管理  \n**** コンピューティング・ストレージ基盤管理  \n**** システム可用性・キャパシティ管理\n\n*** クラウドエンジニア（Cloud Engineer）  \n**** クラウド環境設計・構築  \n**** クラウドリソース・サービス管理  \n**** クラウドセキュリティ・コスト管理\n\n*** ネットワークエンジニア（Network Engineer）  \n**** ネットワーク設計・構築  \n**** 通信・接続・トラフィック管理  \n**** ネットワーク可用性・性能管理\n\n*** DevOpsエンジニア（DevOps Engineer）  \n**** CI/CDパイプライン設計・運用  \n**** ビルド・デプロイ自動化  \n**** 開発・運用プロセス自動化\n\n*** SREエンジニア（Site Reliability Engineer）  \n**** サービス信頼性・可用性管理  \n**** 障害対応・インシデント管理  \n**** オブザーバビリティ・性能管理  \n**** サービスレベル管理\n\n*** プラットフォームエンジニア（Platform Engineer）  \n**** 開発者向けプラットフォーム設計・開発  \n**** 開発環境・共通ツール基盤管理  \n**** セルフサービス・開発者体験向上\n\n** 09. データ・AI部門（Data & AI）  \n*** データエンジニア（Data Engineer）  \n**** データ収集・データパイプライン開発  \n**** データ処理・データ変換基盤開発  \n**** データ品質・データ連携管理\n\n*** データアナリスト（Data Analyst）  \n**** ゲーム・プロダクトデータ分析  \n**** KPI・指標分析  \n**** ダッシュボード・レポート作成\n\n*** データサイエンティスト（Data Scientist）  \n**** 統計分析・予測モデル開発  \n**** ユーザー行動・ゲームデータ分析  \n**** 実験・効果測定\n\n*** 機械学習エンジニア（Machine Learning Engineer）  \n**** 機械学習モデル開発・実装  \n**** モデル学習・推論基盤開発  \n**** モデル性能・運用管理\n\n*** AIエンジニア（AI Engineer）  \n**** AI機能開発・システム統合  \n**** 生成AI・AIエージェント活用  \n**** AIサービス性能・品質管理\n\n*** MLプラットフォームエンジニア（ML Platform Engineer）  \n**** ML開発・実験環境構築  \n**** モデル学習・デプロイ基盤構築  \n**** MLパイプライン・運用基盤管理\n\n*** データアーキテクト（Data Architect）  \n**** データアーキテクチャ設計  \n**** データモデル・データ基盤設計  \n**** データ統合・データ標準設計\n\n*** AIリサーチャー（AI Researcher）  \n**** AI・機械学習アルゴリズム研究  \n**** モデル・学習手法研究  \n**** AI技術評価・技術検証\n\n*** データガバナンススペシャリスト（Data Governance Specialist）  \n**** データガバナンス・データポリシー管理  \n**** データ品質・メタデータ管理  \n**** データアクセス・利用ルール管理\n\n** 10. QA・セキュリティ部門（QA & Security）\n\n*** QAエンジニア（QA Engineer）  \n**** テスト計画・テスト設計  \n**** 機能・システム品質検証  \n**** 不具合管理・品質改善\n\n*** テスト自動化エンジニア（Test Automation Engineer）  \n**** テスト自動化基盤開発  \n**** 自動テスト・テストスイート構築  \n**** テスト実行・結果管理  \n**** テスト環境・ツール管理\n\n*** 品質アナリスト（Quality Analyst）  \n**** 品質指標・品質データ分析  \n**** 不具合傾向・品質リスク分析  \n**** 品質改善施策・評価\n\n*** セキュリティエンジニア（Security Engineer）  \n**** システム・アプリケーションセキュリティ管理  \n**** セキュリティ設計・実装支援  \n**** セキュリティ監視・インシデント対応  \n**** セキュリティ対策・改善\n\n*** 脆弱性管理スペシャリスト（Vulnerability Management Specialist）  \n**** 脆弱性情報・脆弱性管理  \n**** 脆弱性診断・リスク評価  \n**** パッチ・修正対応管理  \n**** 脆弱性対応状況・改善管理\n\n*** アンチチートエンジニア（Anti-Cheat Engineer）  \n**** チート検知・防止システム開発  \n**** 不正クライアント・改ざん検知  \n**** ゲーム内不正行為分析  \n**** アンチチート性能・精度改善\n\n*** 不正対策スペシャリスト（Fraud Prevention Specialist）  \n**** 不正利用・不正取引検知  \n**** 不正行動・リスク分析  \n**** 不正対策ルール・検知モデル管理  \n**** 不正利用対応・被害防止\n\n*** プライバシーエンジニア（Privacy Engineer）  \n**** 個人情報保護・プライバシー設計  \n**** データ収集・利用・保存管理  \n**** プライバシーリスク評価  \n**** データ保護・アクセス制御管理\n\n** 11. ゲーム運営・カスタマー部門（Game Operations & Customer）\n\n*** ゲーム運営担当（Game Operations Specialist）  \n**** ゲーム運営計画・運営管理  \n**** 日常運営・サービス状態管理  \n**** 運営課題・問題対応  \n**** 運営関連部門・外部パートナー調整\n\n*** ライブサービス運営担当（Live Service Operations Specialist）  \n**** ライブサービス運営計画・実行  \n**** サービス更新・バージョン運用  \n**** プレイヤー動向・サービス状況管理  \n**** 継続運営・サービス改善\n\n*** イベント・コンテンツ運営担当（Event & Content Operations Specialist）  \n**** イベント運営計画・実行  \n**** ゲームコンテンツ配信・更新  \n**** イベント設定・報酬管理  \n**** イベント実績・効果分析\n\n*** ゲームエコノミー運営担当（Game Economy Operations Specialist）  \n**** ゲーム内経済・通貨運営  \n**** アイテム・報酬・価格管理  \n**** 経済状況・インフレーション管理  \n**** 経済データ・バランス分析\n\n*** コミュニティマネージャー（Community Manager）  \n**** プレイヤーコミュニティ運営  \n**** コミュニティ情報・コミュニケーション管理  \n**** プレイヤーフィードバック収集・分析  \n**** コミュニティ施策・エンゲージメント管理\n\n*** カスタマーサポート担当（Customer Support Specialist）  \n**** プレイヤー問い合わせ・サポート対応  \n**** アカウント・決済・ゲーム障害対応  \n**** 問い合わせ・対応履歴管理  \n**** FAQ・サポートナレッジ管理\n\n*** 運営アナリスト（Operations Analyst）  \n**** 運営データ・サービス状況分析  \n**** KPI・ユーザー行動分析  \n**** イベント・施策効果分析  \n**** 運営改善・意思決定支援\n\n** 12. マーケティング・ビジネス部門（Marketing & Business）\n\n*** マーケティング担当（Marketing Specialist）  \n**** マーケティング戦略・施策計画  \n**** ターゲット・市場分析  \n**** マーケティング施策・キャンペーン実行  \n**** ブランド・プロモーション管理\n\n*** ユーザーアクイジション担当（User Acquisition Specialist）  \n**** ユーザー獲得戦略・施策計画  \n**** 広告運用・メディア管理  \n**** 獲得コスト・広告効果管理  \n**** ユーザー獲得・継続率改善\n\n*** SEO・ASO担当（SEO / ASO Specialist）  \n**** SEO・ASO戦略・施策計画  \n**** Web・ストア検索最適化  \n**** キーワード・コンテンツ最適化  \n**** 検索流入・ストアパフォーマンス分析\n\n*** PR・広報担当（Public Relations Specialist）  \n**** PR戦略・広報計画  \n**** プレスリリース・メディア対応  \n**** メディア・インフルエンサー関係管理  \n**** ブランド・企業情報発信\n\n*** セールス担当（Sales Specialist）  \n**** 営業戦略・販売計画  \n**** 顧客・取引先開拓  \n**** 商談・契約・販売管理  \n**** 売上・顧客関係管理\n\n*** ビジネスデベロップメント担当（Business Development Specialist）  \n**** 新規事業・ビジネス機会開発  \n**** 市場・事業機会分析  \n**** 事業計画・ビジネスモデル開発  \n**** 新規事業・サービス立ち上げ\n\n*** パートナーシップ担当（Partnerships Specialist）  \n**** パートナー戦略・協業計画  \n**** パートナー候補・関係管理  \n**** 協業案件・契約管理  \n**** パートナー施策・成果管理\n\n*** マネタイズ担当（Monetization Specialist）  \n**** マネタイズ戦略・収益モデル設計  \n**** 課金・商品・価格戦略  \n**** 収益・コンバージョン分析  \n**** マネタイズ施策・収益改善\n\n*** マーケティングアナリスト（Marketing Analyst）  \n**** マーケティングデータ・市場分析  \n**** ユーザー獲得・広告効果分析  \n**** キャンペーン・施策効果分析  \n**** マーケティングKPI・意思決定支援\n\n@endwbs\n\r\n"</script>
+
+<!-- フッター -->
+<footer>&copy; 2026 GaGN. All rights reserved.</footer>
+</div>
+
 <script>
-const lines=JSON.parse(document.getElementById('plantuml-source').textContent).split(/\r?\n/),root={children:[]},stack=[root];
-for(const line of lines){const m=line.match(/^(\*+|-)\s*(.+?)\s*$/);if(!m)continue;const depth=m[1]==='-'?1:m[1].length,node={label:m[2],children:[]};stack[depth]=node;stack.length=depth+1;(stack[depth-1]||root).children.push(node)}
-function render(nodes,depth){const list=document.createElement('ul');nodes.forEach(item=>{const li=document.createElement('li');li.className=`depth-${depth}`;const node=document.createElement('div');node.className='node';if(item.children.length){const toggle=document.createElement('button');toggle.className='toggle';toggle.type='button';toggle.textContent='⌄';toggle.setAttribute('aria-label','子項目を折りたたむ');const state=()=>{const closed=li.classList.toggle('collapsed');toggle.setAttribute('aria-label',closed?'子項目を展開する':'子項目を折りたたむ')};toggle.addEventListener('click',state);node.addEventListener('dblclick',state);node.append(toggle)}else{const spacer=document.createElement('span');spacer.className='spacer';node.append(spacer)}const label=document.createElement('span');label.className='label';label.textContent=item.label;if(item.children.length)label.addEventListener('click',()=>li.querySelector(':scope > .node > .toggle').click());node.append(label);li.append(node);if(item.children.length)li.append(render(item.children,depth+1));list.append(li)});return list}
-document.getElementById('tree').append(render(root.children,1));
-function showTo(depth){document.querySelectorAll('#tree li').forEach(el=>{const level=Number(el.className.match(/depth-(\d+)/)?.[1]);if(el.querySelector(':scope>ul'))el.classList.toggle('collapsed',level>=depth)})}
-document.querySelectorAll('[data-depth]').forEach(button=>button.addEventListener('click',()=>showTo(Number(button.dataset.depth))));
-document.getElementById('expand').addEventListener('click',()=>document.querySelectorAll('#tree .collapsed').forEach(el=>el.classList.remove('collapsed')));
-showTo(3);
+(function(){
+  var depts = Array.prototype.slice.call(document.querySelectorAll('.dept'));
+  var roles = Array.prototype.slice.call(document.querySelectorAll('.role'));
+  var tasks = document.querySelectorAll('.role li');
+  document.getElementById('s-dept').textContent = depts.length;
+  document.getElementById('s-role').textContent = roles.length;
+  document.getElementById('s-task').textContent = tasks.length;
+
+  roles.forEach(function(r){ r.dataset.text = r.textContent.toLowerCase(); });
+
+  var q = document.getElementById('q');
+  var empty = document.getElementById('empty');
+
+  function clearMarks(el){
+    el.querySelectorAll('mark').forEach(function(m){
+      m.replaceWith(document.createTextNode(m.textContent));
+    });
+    el.normalize();
+  }
+  function markIn(el, term){
+    var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+    var nodes = [], n;
+    while((n = walker.nextNode())) nodes.push(n);
+    nodes.forEach(function(node){
+      var lower = node.nodeValue.toLowerCase();
+      var i = lower.indexOf(term);
+      if(i < 0) return;
+      var frag = document.createDocumentFragment();
+      var rest = node.nodeValue, pos = 0, low = lower;
+      while((i = low.indexOf(term, pos)) >= 0){
+        frag.appendChild(document.createTextNode(rest.slice(pos, i)));
+        var mk = document.createElement('mark');
+        mk.textContent = rest.slice(i, i + term.length);
+        frag.appendChild(mk);
+        pos = i + term.length;
+      }
+      frag.appendChild(document.createTextNode(rest.slice(pos)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+
+  function filter(){
+    var term = q.value.trim().toLowerCase();
+    var any = false;
+    roles.forEach(clearMarks);
+    roles.forEach(function(r){
+      var hit = !term || r.dataset.text.indexOf(term) >= 0;
+      r.classList.toggle('hidden', !hit);
+      if(hit){ any = true; if(term) markIn(r, term); }
+    });
+    depts.forEach(function(d){
+      var visible = d.querySelectorAll('.role:not(.hidden)').length > 0;
+      d.classList.toggle('hidden', !visible);
+      if(term && visible) d.open = true;
+    });
+    empty.classList.toggle('hidden', any);
+  }
+
+  q.addEventListener('input', filter);
+  document.getElementById('expand').addEventListener('click', function(){
+    depts.forEach(function(d){ d.open = true; });
+  });
+  document.getElementById('collapse').addEventListener('click', function(){
+    depts.forEach(function(d){ d.open = false; });
+  });
+  document.getElementById('dl').addEventListener('click', function(){
+    var blob = new Blob([document.documentElement.outerHTML], {type:'text/html'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = 'game_company_structure_full.html';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+})();
 </script>
 </body>
 </html>
