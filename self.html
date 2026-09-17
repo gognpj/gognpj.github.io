@@ -1,276 +1,381 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>自己紹介 | GoGN</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ゲーム会社 組織・職種マップ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f5f2;
+  --panel:#ffffff;
+  --ink:#1c1b19;
+  --ink-soft:#56534d;
+  --ink-faint:#8b877f;
+  --line:#e2ded6;
+  --accent:#b4501f;
+  --accent-soft:#f3e4da;
+  --chip:#efece6;
+  --shadow:0 1px 2px rgba(28,27,25,.05), 0 8px 24px rgba(28,27,25,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#16151a;
+    --panel:#1e1d23;
+    --ink:#eceae5;
+    --ink-soft:#b0aca4;
+    --ink-faint:#807c75;
+    --line:#302e37;
+    --accent:#e08a56;
+    --accent-soft:#3a2a20;
+    --chip:#2a282f;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#16151a;
+  --panel:#1e1d23;
+  --ink:#eceae5;
+  --ink-soft:#b0aca4;
+  --ink-faint:#807c75;
+  --line:#302e37;
+  --accent:#e08a56;
+  --accent-soft:#3a2a20;
+  --chip:#2a282f;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Noto Sans JP","Hiragino Sans","Yu Gothic UI","Microsoft YaHei",system-ui,sans-serif;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:clamp(24px,5vw,56px) clamp(16px,4vw,40px) 80px}
 
-    body {
-      font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      color: #333;
-    }
+header.page{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:32px}
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);margin:0 0 10px
+}
+h1{font-size:clamp(26px,4vw,40px);line-height:1.25;margin:0 0 10px;letter-spacing:-.01em}
+.sub{color:var(--ink-soft);margin:0;font-size:15px}
+.stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.stat{
+  background:var(--chip);border-radius:999px;padding:5px 13px;
+  font-size:12.5px;color:var(--ink-soft)
+}
+.stat b{color:var(--ink);font-weight:700}
 
-    .card {
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      max-width: 600px;
-      width: 100%;
-      overflow: hidden;
-      animation: fadeIn 0.8s ease;
-    }
+.toolbar{
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+  position:sticky;top:0;z-index:5;
+  background:var(--bg);padding:12px 0;margin-bottom:8px;
+  border-bottom:1px solid var(--line);
+}
+#q{
+  flex:1 1 220px;min-width:0;
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:9px 13px;font:inherit;font-size:14px;color:var(--ink);
+}
+#q:focus{outline:2px solid var(--accent);outline-offset:1px}
+.btn{
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:9px 14px;font:inherit;font-size:13.5px;color:var(--ink-soft);
+  cursor:pointer;white-space:nowrap
+}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+.dept{
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  box-shadow:var(--shadow);margin-top:20px;overflow:hidden
+}
+.dept > summary{
+  list-style:none;cursor:pointer;padding:18px 22px;
+  display:flex;align-items:baseline;gap:12px;
+}
+.dept > summary::-webkit-details-marker{display:none}
+.dept > summary:hover .dept-name{color:var(--accent)}
+.num{
+  font-family:"IBM Plex Mono",monospace;font-size:13px;
+  color:var(--accent);background:var(--accent-soft);
+  border-radius:6px;padding:3px 8px;flex:none
+}
+.dept-name{font-size:18px;font-weight:700;letter-spacing:-.01em}
+.dept-en{display:block;font-size:12.5px;font-weight:400;color:var(--ink-faint);letter-spacing:.02em}
+.caret{margin-left:auto;color:var(--ink-faint);font-size:12px;transition:transform .15s ease;flex:none}
+.dept[open] .caret{transform:rotate(90deg)}
 
-    .header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: #fff;
-      text-align: center;
-      padding: 40px 20px 30px;
-    }
-
-    .avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      border: 4px solid #fff;
-      object-fit: cover;
-      margin-bottom: 15px;
-      background: #ddd;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 48px;
-      color: #667eea;
-      font-weight: bold;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .header h1 {
-      font-size: 28px;
-      margin-bottom: 5px;
-      letter-spacing: 2px;
-    }
-
-    .header .job {
-      font-size: 14px;
-      opacity: 0.9;
-    }
-
-    .content {
-      padding: 30px 40px 40px;
-    }
-
-    .section {
-      margin-bottom: 25px;
-    }
-
-    .section h2 {
-      font-size: 16px;
-      color: #764ba2;
-      border-left: 4px solid #667eea;
-      padding-left: 10px;
-      margin-bottom: 12px;
-      letter-spacing: 1px;
-    }
-
-    .section p {
-      font-size: 14px;
-      line-height: 1.8;
-      color: #555;
-    }
-
-    .info-list {
-      list-style: none;
-    }
-
-    .info-list li {
-      display: flex;
-      padding: 8px 0;
-      border-bottom: 1px dashed #eee;
-      font-size: 14px;
-    }
-
-    .info-list li:last-child {
-      border-bottom: none;
-    }
-
-    .info-list .label {
-      width: 90px;
-      color: #999;
-      flex-shrink: 0;
-    }
-
-    .info-list .value {
-      color: #333;
-    }
-
-    .skills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .skill-tag {
-      background: #f0f0ff;
-      color: #667eea;
-      padding: 5px 14px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: bold;
-      transition: all 0.3s;
-    }
-
-    .skill-tag:hover {
-      background: #667eea;
-      color: #fff;
-      transform: translateY(-2px);
-    }
-
-    .links {
-      display: flex;
-      gap: 12px;
-      margin-top: 10px;
-    }
-
-    .links a {
-      flex: 1;
-      text-align: center;
-      text-decoration: none;
-      padding: 10px;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: bold;
-      transition: all 0.3s;
-    }
-
-    .links .mail {
-      background: #667eea;
-      color: #fff;
-    }
-
-    .links .mail:hover {
-      background: #5568d3;
-    }
-
-    .links .github {
-      background: #333;
-      color: #fff;
-    }
-
-    .links .github:hover {
-      background: #000;
-    }
-
-    .footer {
-      text-align: center;
-      font-size: 12px;
-      color: #aaa;
-      padding: 15px;
-      background: #fafafa;
-    }
-
-    @media (max-width: 480px) {
-      .content { padding: 25px 20px 30px; }
-      .header h1 { font-size: 22px; }
-      .avatar { width: 90px; height: 90px; font-size: 36px; }
-      .links { flex-direction: column; }
-    }
-  </style>
+.roles{
+  display:grid;gap:14px;padding:0 22px 22px;
+  grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
+}
+.role{border-top:2px solid var(--line);padding-top:12px}
+.role h3{margin:0;font-size:14.5px;font-weight:700;line-height:1.45}
+.role .en{display:block;font-size:11.5px;font-weight:400;color:var(--ink-faint);margin-top:2px;font-family:"IBM Plex Mono",monospace}
+.role ul{margin:10px 0 0;padding:0;list-style:none}
+.role li{
+  position:relative;padding-left:15px;font-size:13.5px;
+  color:var(--ink-soft);margin-bottom:5px
+}
+.role li::before{
+  content:"";position:absolute;left:0;top:.66em;
+  width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.55
+}
+mark{background:var(--accent-soft);color:var(--ink);border-radius:3px;padding:0 2px}
+.hidden{display:none !important}
+.empty{color:var(--ink-faint);font-size:14px;padding:32px 4px;text-align:center}
+footer{margin-top:44px;color:var(--ink-faint);font-size:12.5px;text-align:center}
+</style>
 </head>
 <body>
-  <div class="card">
-    <!-- ヘッダー -->
-    <div class="header">
-      <div class="avatar">Go</div>
-      <h1>GoGN</h1>
-      <p class="job">ゲームサーバー / バックエンド / データベース / ネットワーク / インフラ</p>
-    </div>
+<div class="wrap">
 
-    <!-- コンテンツ -->
-    <div class="content">
+<header class="page">
+  <p class="eyebrow">Organization / Role Map</p>
+  <h1>ゲーム会社 組織・職種マップ</h1>
+  <p class="sub">部門 → 職種 → 担当業務の three-tier structure</p>
+  <div class="stats">
+    <span class="stat"><b id="s-dept">0</b> 部門</span>
+    <span class="stat"><b id="s-role">0</b> 職種</span>
+    <span class="stat"><b id="s-task">0</b> 業務項目</span>
+  </div>
+</header>
 
-	<!-- スキル -->
-	<div class="section">
-	  <h2>SKILLS</h2>
+<div class="toolbar">
+  <input id="q" type="search" placeholder="職種・業務でフィルタ（例: セキュリティ, API, KPI）" autocomplete="off">
+  <button class="btn" id="expand">すべて展開</button>
+  <button class="btn" id="collapse">すべて折りたたむ</button>
+</div>
 
-	  <h2>ゲームサーバー / GAME SERVER</h2>
-	  <div class="skills">
-		<span class="skill-tag">ゲームワールド・プレイヤー状態管理 / GAME WORLD & PLAYER STATE MANAGEMENT</span>
-		<span class="skill-tag">ゲームロジック・ゲーム状態管理 / GAME LOGIC & STATE MANAGEMENT</span>
-		<span class="skill-tag">マルチプレイヤー通信・セッション管理 / MULTIPLAYER COMMUNICATION & SESSION MANAGEMENT</span>
-		<span class="skill-tag">サーバー性能・スケーラビリティ管理 / SERVER PERFORMANCE & SCALABILITY</span>
-	  </div>
+<main id="list">
 
-	  <h2>バックエンド / BACKEND</h2>
-	  <div class="skills">
-		<span class="skill-tag">API設計 / API DESIGN</span>
-		<span class="skill-tag">アカウント・認証・権限設計 / ACCOUNT, AUTHENTICATION & AUTHORIZATION</span>
-		<span class="skill-tag">ソーシャル・コミュニケーション設計 / SOCIAL & COMMUNICATION SYSTEMS</span>
-		<span class="skill-tag">ショップ・決済・課金設計 / SHOP, PAYMENT & MONETIZATION SYSTEMS</span>
-		<span class="skill-tag">外部サービス・プラットフォーム設計 / EXTERNAL SERVICES & PLATFORM INTEGRATION</span>
-		<span class="skill-tag">管理ツール開発 / ADMIN TOOL DEVELOPMENT</span>
-		<span class="skill-tag">パフォーマンス最適化 / PERFORMANCE OPTIMIZATION</span>
-	  </div>
-
-	  <h2>データベース / DATABASE</h2>
-	  <div class="skills">
-		<span class="skill-tag">データベース・スキーマ設計 / DATABASE & SCHEMA DESIGN</span>
-		<span class="skill-tag">データモデル・データ整合性管理 / DATA MODELING & DATA INTEGRITY</span>
-		<span class="skill-tag">クエリ・データアクセス性能管理 / QUERY & DATA ACCESS OPTIMIZATION</span>
-		<span class="skill-tag">データ可用性・バックアップ管理 / DATA AVAILABILITY & BACKUP MANAGEMENT</span>
-		<span class="skill-tag">データ移行・容量管理 / DATA MIGRATION & CAPACITY MANAGEMENT</span>
-		<span class="skill-tag">データベース性能最適化 / DATABASE PERFORMANCE OPTIMIZATION</span>
-	  </div>
-
-	  <h2>ネットワーク / NETWORK</h2>
-	  <div class="skills">
-		<span class="skill-tag">ネットワーク設計・構築 / NETWORK DESIGN & IMPLEMENTATION</span>
-		<span class="skill-tag">通信・接続・トラフィック管理 / NETWORK CONNECTIVITY & TRAFFIC MANAGEMENT</span>
-		<span class="skill-tag">ネットワーク可用性・性能管理 / NETWORK AVAILABILITY & PERFORMANCE</span>
-	  </div>
-
-	  <h2>クラウド・インフラ / CLOUD & INFRASTRUCTURE</h2>
-	  <div class="skills">
-		<span class="skill-tag">サーバー・OS・ミドルウェア基盤管理 / SERVER, OS & MIDDLEWARE MANAGEMENT</span>
-		<span class="skill-tag">コンピューティング・ストレージ基盤管理 / COMPUTE & STORAGE INFRASTRUCTURE</span>
-		<span class="skill-tag">システム可用性・キャパシティ管理 / SYSTEM AVAILABILITY & CAPACITY MANAGEMENT</span>
-		<span class="skill-tag">Linux / LINUX</span>
-		<span class="skill-tag">CI/CD / CI/CD</span>
-		<span class="skill-tag">Docker / DOCKER</span>
-		<span class="skill-tag">Kubernetes / KUBERNETES</span>
-		<span class="skill-tag">クラウド環境 / CLOUD ENVIRONMENTS</span>
-	  </div>
-
-	  <h2>分散システムアーキテクチャ / DISTRIBUTED SYSTEM ARCHITECTURE</h2>
-	  <div class="skills">
-		<span class="skill-tag">分散システム / DISTRIBUTED SYSTEMS</span>
-		<span class="skill-tag">マイクロサービス / MICROSERVICES</span>
-		<span class="skill-tag">スケーラブルアーキテクチャ / SCALABLE ARCHITECTURE</span>
-		<span class="skill-tag">可用性設計 / HIGH AVAILABILITY DESIGN</span>
-	  </div>
-	</div>
-
-    </div>
-    <!-- フッター -->
-    <div class="footer">
-      &copy; 2026 GaGN. All rights reserved.
+<details class="dept" open>
+  <summary><span class="num">01</span><span class="dept-name">経営・コーポレート部門<span class="dept-en">Corporate Management</span></span><span class="caret">▶</span></summary>
+  <div class="roles">
+    <div class="role">
+      <h3>社内IT<span class="en">Corporate IT</span></h3>
+      <ul><li>社内IT基盤・システム管理</li><li>アカウント・端末・IT資産管理</li><li>社内ネットワーク・業務環境管理</li><li>ITヘルプデスク・ユーザーサポート</li></ul>
     </div>
   </div>
+</details>
+
+<details class="dept" open>
+  <summary><span class="num">03</span><span class="dept-name">プロジェクト管理部門<span class="dept-en">Project Management</span></span><span class="caret">▶</span></summary>
+  <div class="roles">
+    <div class="role">
+      <h3>プロジェクトマネージャー<span class="en">Project Manager</span></h3>
+      <ul><li>プロジェクト計画・進行管理</li><li>スケジュール・マイルストーン管理</li><li>リソース・予算管理</li><li>リスク・課題管理</li><li>プロジェクト成果・品質管理</li></ul>
+    </div>
+    <div class="role">
+      <h3>プロジェクトコーディネーター<span class="en">Project Coordinator</span></h3>
+      <ul><li>プロジェクト進行・タスク管理</li><li>会議・情報・ドキュメント管理</li><li>チーム間コミュニケーション・調整</li><li>スケジュール・進捗情報管理</li></ul>
+    </div>
+  </div>
+</details>
+
+<details class="dept" open>
+  <summary><span class="num">07</span><span class="dept-name">ゲームサーバー・バックエンド部門<span class="dept-en">Game Server &amp; Backend</span></span><span class="caret">▶</span></summary>
+  <div class="roles">
+    <div class="role">
+      <h3>ゲームサーバーエンジニア<span class="en">Game Server Engineer</span></h3>
+      <ul><li>ゲームロジック・ゲーム状態管理</li><li>マルチプレイヤー通信・セッション管理</li><li>ゲームワールド・プレイヤー状態管理</li><li>サーバー性能・スケーラビリティ管理</li></ul>
+    </div>
+    <div class="role">
+      <h3>バックエンドエンジニア<span class="en">Backend Engineer</span></h3>
+      <ul><li>API・バックエンドサービス開発</li><li>アカウント・認証・権限管理</li><li>ソーシャル・コミュニケーション機能開発</li><li>ショップ・決済・課金機能開発</li><li>外部サービス・プラットフォーム連携</li></ul>
+    </div>
+    <div class="role">
+      <h3>データベースエンジニア<span class="en">Database Engineer</span></h3>
+      <ul><li>データベース・スキーマ設計</li><li>データモデル・データ整合性管理</li><li>クエリ・データアクセス性能管理</li><li>データ可用性・バックアップ管理</li><li>データ移行・容量管理</li></ul>
+    </div>
+  </div>
+</details>
+
+<details class="dept" open>
+  <summary><span class="num">08</span><span class="dept-name">インフラ・プラットフォーム部門<span class="dept-en">Infrastructure &amp; Platform</span></span><span class="caret">▶</span></summary>
+  <div class="roles">
+    <div class="role">
+      <h3>インフラエンジニア<span class="en">Infrastructure Engineer</span></h3>
+      <ul><li>サーバー・OS・ミドルウェア基盤管理</li><li>コンピューティング・ストレージ基盤管理</li><li>システム可用性・キャパシティ管理</li></ul>
+    </div>
+    <div class="role">
+      <h3>クラウドエンジニア<span class="en">Cloud Engineer</span></h3>
+      <ul><li>クラウド環境設計・構築</li><li>クラウドリソース・サービス管理</li><li>クラウドセキュリティ・コスト管理</li></ul>
+    </div>
+    <div class="role">
+      <h3>ネットワークエンジニア<span class="en">Network Engineer</span></h3>
+      <ul><li>ネットワーク設計・構築</li><li>通信・接続・トラフィック管理</li><li>ネットワーク可用性・性能管理</li></ul>
+    </div>
+    <div class="role">
+      <h3>DevOpsエンジニア<span class="en">DevOps Engineer</span></h3>
+      <ul><li>CI/CDパイプライン設計・運用</li><li>ビルド・デプロイ自動化</li><li>開発・運用プロセス自動化</li></ul>
+    </div>
+    <div class="role">
+      <h3>SREエンジニア<span class="en">Site Reliability Engineer</span></h3>
+      <ul><li>サービス信頼性・可用性管理</li><li>障害対応・インシデント管理</li><li>オブザーバビリティ・性能管理</li><li>サービスレベル管理</li></ul>
+    </div>
+    <div class="role">
+      <h3>プラットフォームエンジニア<span class="en">Platform Engineer</span></h3>
+      <ul><li>開発者向けプラットフォーム設計・開発</li><li>開発環境・共通ツール基盤管理</li><li>セルフサービス・開発者体験向上</li></ul>
+    </div>
+  </div>
+</details>
+
+<details class="dept" open>
+  <summary><span class="num">09</span><span class="dept-name">データ部門<span class="dept-en">Data</span></span><span class="caret">▶</span></summary>
+  <div class="roles">
+    <div class="role">
+      <h3>データエンジニア<span class="en">Data Engineer</span></h3>
+      <ul><li>データ収集・データパイプライン開発</li><li>データ処理・データ変換基盤開発</li><li>データ品質・データ連携管理</li></ul>
+    </div>
+    <div class="role">
+      <h3>データアナリスト<span class="en">Data Analyst</span></h3>
+      <ul><li>ゲーム・プロダクトデータ分析</li><li>KPI・指標分析</li><li>ダッシュボード・レポート作成</li></ul>
+    </div>
+    <div class="role">
+      <h3>データサイエンティスト<span class="en">Data Scientist</span></h3>
+      <ul><li>統計分析・予測モデル開発</li><li>ユーザー行動・ゲームデータ分析</li><li>実験・効果測定</li></ul>
+    </div>
+    <div class="role">
+      <h3>データガバナンススペシャリスト<span class="en">Data Governance Specialist</span></h3>
+      <ul><li>データガバナンス・データポリシー管理</li><li>データ品質・メタデータ管理</li><li>データアクセス・利用ルール管理</li></ul>
+    </div>
+  </div>
+</details>
+
+<details class="dept" open>
+  <summary><span class="num">10</span><span class="dept-name">QA・セキュリティ部門<span class="dept-en">QA &amp; Security</span></span><span class="caret">▶</span></summary>
+  <div class="roles">
+    <div class="role">
+      <h3>テスト自動化エンジニア<span class="en">Test Automation Engineer</span></h3>
+      <ul><li>テスト自動化基盤開発</li><li>自動テスト・テストスイート構築</li><li>テスト実行・結果管理</li><li>テスト環境・ツール管理</li></ul>
+    </div>
+    <div class="role">
+      <h3>アンチチートエンジニア<span class="en">Anti-Cheat Engineer</span></h3>
+      <ul><li>チート検知・防止システム開発</li><li>不正クライアント・改ざん検知</li><li>ゲーム内不正行為分析</li><li>アンチチート性能・精度改善</li></ul>
+    </div>
+    <div class="role">
+      <h3>不正対策スペシャリスト<span class="en">Fraud Prevention Specialist</span></h3>
+      <ul><li>不正利用・不正取引検知</li><li>不正行動・リスク分析</li><li>不正対策ルール・検知モデル管理</li><li>不正利用対応・被害防止</li></ul>
+    </div>
+    <div class="role">
+      <h3>プライバシーエンジニア<span class="en">Privacy Engineer</span></h3>
+      <ul><li>個人情報保護・プライバシー設計</li><li>データ収集・利用・保存管理</li><li>プライバシーリスク評価</li><li>データ保護・アクセス制御管理</li></ul>
+    </div>
+  </div>
+</details>
+
+<details class="dept" open>
+  <summary><span class="num">11</span><span class="dept-name">ゲーム運営・カスタマー部門<span class="dept-en">Game Operations &amp; Customer</span></span><span class="caret">▶</span></summary>
+  <div class="roles">
+    <div class="role">
+      <h3>ゲーム運営担当<span class="en">Game Operations Specialist</span></h3>
+      <ul><li>ゲーム運営計画・運営管理</li><li>日常運営・サービス状態管理</li><li>運営課題・問題対応</li></ul>
+    </div>
+    <div class="role">
+      <h3>ライブサービス運営担当<span class="en">Live Service Operations Specialist</span></h3>
+      <ul><li>ライブサービス運営計画・実行</li><li>サービス更新・バージョン運用</li><li>プレイヤー動向・サービス状況管理</li><li>継続運営・サービス改善</li></ul>
+    </div>
+    <div class="role">
+      <h3>カスタマーサポート担当<span class="en">Customer Support Specialist</span></h3>
+      <ul><li>プレイヤー問い合わせ・サポート対応</li><li>アカウント・決済・ゲーム障害対応</li><li>問い合わせ・対応履歴管理</li><li>FAQ・サポートナレッジ管理</li></ul>
+    </div>
+    <div class="role">
+      <h3>運営アナリスト<span class="en">Operations Analyst</span></h3>
+      <ul><li>運営データ・サービス状況分析</li><li>KPI・ユーザー行動分析</li><li>イベント・施策効果分析</li><li>運営改善・意思決定支援</li></ul>
+    </div>
+  </div>
+</details>
+
+<details class="dept" open>
+  <summary><span class="num">12</span><span class="dept-name">マーケティング・ビジネス部門<span class="dept-en">Marketing &amp; Business</span></span><span class="caret">▶</span></summary>
+  <div class="roles">
+    <div class="role">
+      <h3>SEO・ASO担当<span class="en">SEO / ASO Specialist</span></h3>
+      <ul><li>SEO・ASO戦略・施策計画</li><li>Web・ストア検索最適化</li><li>キーワード・コンテンツ最適化</li><li>検索流入・ストアパフォーマンス分析</li></ul>
+    </div>
+  </div>
+</details>
+
+<p class="empty hidden" id="empty">該当する職種・業務が見つかりませんでした。</p>
+</main>
+
+<footer>PlantUML マインドマップから変換</footer>
+</div>
+
+<script>
+(function(){
+  var depts = Array.prototype.slice.call(document.querySelectorAll('.dept'));
+  var roles = Array.prototype.slice.call(document.querySelectorAll('.role'));
+  var tasks = document.querySelectorAll('.role li');
+  document.getElementById('s-dept').textContent = depts.length;
+  document.getElementById('s-role').textContent = roles.length;
+  document.getElementById('s-task').textContent = tasks.length;
+
+  roles.forEach(function(r){ r.dataset.text = r.textContent.toLowerCase(); });
+
+  var q = document.getElementById('q');
+  var empty = document.getElementById('empty');
+
+  function clearMarks(el){
+    el.querySelectorAll('mark').forEach(function(m){
+      m.replaceWith(document.createTextNode(m.textContent));
+    });
+    el.normalize();
+  }
+  function markIn(el, term){
+    var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+    var nodes = [], n;
+    while((n = walker.nextNode())) nodes.push(n);
+    nodes.forEach(function(node){
+      var lower = node.nodeValue.toLowerCase();
+      var i = lower.indexOf(term);
+      if(i < 0) return;
+      var frag = document.createDocumentFragment();
+      var rest = node.nodeValue, pos = 0, low = lower;
+      while((i = low.indexOf(term, pos)) >= 0){
+        frag.appendChild(document.createTextNode(rest.slice(pos, i)));
+        var mk = document.createElement('mark');
+        mk.textContent = rest.slice(i, i + term.length);
+        frag.appendChild(mk);
+        pos = i + term.length;
+      }
+      frag.appendChild(document.createTextNode(rest.slice(pos)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+
+  function filter(){
+    var term = q.value.trim().toLowerCase();
+    var any = false;
+    roles.forEach(clearMarks);
+    roles.forEach(function(r){
+      var hit = !term || r.dataset.text.indexOf(term) >= 0;
+      r.classList.toggle('hidden', !hit);
+      if(hit){ any = true; if(term) markIn(r, term); }
+    });
+    depts.forEach(function(d){
+      var visible = d.querySelectorAll('.role:not(.hidden)').length > 0;
+      d.classList.toggle('hidden', !visible);
+      if(term && visible) d.open = true;
+    });
+    empty.classList.toggle('hidden', any);
+  }
+
+  q.addEventListener('input', filter);
+  document.getElementById('expand').addEventListener('click', function(){
+    depts.forEach(function(d){ d.open = true; });
+  });
+  document.getElementById('collapse').addEventListener('click', function(){
+    depts.forEach(function(d){ d.open = false; });
+  });
+})();
+</script>
 </body>
 </html>
