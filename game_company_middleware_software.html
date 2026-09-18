@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ゲーム会社｜部門別ミドルウェア・ソフトウェア一覧</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f5f6f8;color:#222;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;line-height:1.6}
+header{background:#20242b;color:#fff;padding:36px 24px}
+header h1{max-width:1200px;margin:0 auto 8px;font-size:30px}
+header p{max-width:1200px;margin:auto;color:#bfc5ce}
+main{max-width:1200px;margin:28px auto;padding:0 20px}
+section{background:#fff;border-radius:12px;margin-bottom:22px;padding:24px;box-shadow:0 2px 10px #0000000b}
+h2{margin:0 0 18px;font-size:22px;border-left:5px solid #333;padding-left:12px}
+h3{font-size:16px;margin:18px 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:10px}
+.item{display:flex;gap:12px;padding:13px;border:1px solid #e5e7eb;border-radius:9px;background:#fafafa}
+.icon{width:40px;height:40px;border-radius:9px;background:#e9edf2;display:flex;align-items:center;justify-content:center;font-size:21px;flex:none}
+.item a{color:#1d4ed8;text-decoration:none;font-weight:650}
+.item a:hover{text-decoration:underline}
+.desc{font-size:13px;color:#666;margin-top:2px}
+.note{font-size:13px;color:#666;background:#f0f2f5;padding:10px 12px;border-radius:7px;margin-top:14px}
+footer{max-width:1200px;margin:30px auto;padding:0 20px 40px;color:#777;font-size:12px}
+@media(max-width:600px){header h1{font-size:24px}section{padding:18px}}
+</style>
+</head>
+<body>
+<header>
+<h1>ゲーム会社｜部門別ミドルウェア・ソフトウェア一覧</h1>
+<p>実際のゲーム開発・運営・インフラ・企業機能に基づいて整理しています。名称をクリックすると公式サイトに移動します。</p>
+</header>
+<main id="app"></main>
+<footer>注記：各ソフトウェアは最も関連性の高い部門にのみ一度だけ掲載しています。リンクは基本的に公式製品／プロジェクトサイトです。</footer>
+<script>
+const data=[
+["一、経営・企業","📊",[
+["経営企画","Power BI","BI・KPI分析【AI】","https://www.microsoft.com/power-platform/products/power-bi"],
+["人事","SmartHR","人事・労務管理【AI】","https://smarthr.jp/"],
+["人事","freee","会計・人事労務【AI】","https://www.freee.co.jp/"],
+]],
+["二、プロダクト","📋",[
+["プロダクト分析","Mixpanel","プロダクト分析・ファネル・リテンション【AI】","https://mixpanel.com/"],
+]],
+["三、プロジェクト管理","📋",[
+["プロジェクト管理","Jira","タスク・プロジェクト管理【AI】","https://www.atlassian.com/software/jira"],
+["ナレッジ管理","Confluence","仕様書・ナレッジベース【AI】","https://www.atlassian.com/software/confluence"],
+["コミュニケーション","Chatwork","ビジネスチャット・タスク管理","https://go.chatwork.com/ja/"],
+["コミュニケーション","Slack","チームコミュニケーション【AI】","https://slack.com/"],
+["バージョン管理","GitHub","コードホスティング・共同開発プラットフォーム【AI】","https://github.com/"],
+["バージョン管理","GitLab","コードホスティング・DevOps統合プラットフォーム【AI】","https://about.gitlab.com/"],
+["バージョン管理","Subversion（SVN）","集中型バージョン管理システム","https://subversion.apache.org/"],
+["ナレッジ管理","Notion","ドキュメント・ナレッジベース【AI】","https://www.notion.com/"],
+["コミュニケーション","Microsoft Teams","チームコミュニケーション・会議【AI】","https://www.microsoft.com/microsoft-teams/"],
+["プロジェクト管理","Backlog","タスク・プロジェクト管理【AI】","https://backlog.com/"],
+["開発管理","Azure DevOps","かんばん・リポジトリ・パイプライン統合【AI】","https://azure.microsoft.com/products/devops"],
+["プロジェクト管理","Redmine","オープンソースのプロジェクト・チケット管理","https://www.redmine.org/"],
+["ナレッジ管理","Wiki.js","オープンソースWiki・ドキュメントプラットフォーム","https://js.wiki/"],
+["ナレッジ管理","Obsidian","ローカルMarkdownノート・ナレッジネットワーク","https://obsidian.md/"],
+["ドキュメントサイト","MkDocs","Markdown静的ドキュメントサイト生成","https://www.mkdocs.org/"],
+["ドキュメント作成","MarkText","オープンソースMarkdownエディタ・リアルタイムプレビュー","https://marktext.me/"],
+]],
+["四、ゲーム企画・デザイン","🎮",[
+["レベルデザイン","Tiled","2Dレベルマップエディタ","https://www.mapeditor.org/"],
+["ナラティブデザイン","articy:draft","ストーリー・対話・分岐管理","https://www.articy.com/"],
+["ナラティブデザイン","Twine","インタラクティブストーリー制作","https://twinery.org/"],
+["ナラティブデザイン","Ink","インタラクティブ・ナラティブスクリプト言語","https://www.inklestudios.com/ink/"],
+["バランスデザイン","Machinations","ゲームエコノミー・システムシミュレーション","https://machinations.io/"],
+["レベルデザイン","World Machine","地形生成ツール","https://www.world-machine.com/"],
+["テクニカルデザイン","Python","ツール・プロトタイプ・自動化","https://www.python.org/"],
+]],
+["五、アート・UX","🎨",[
+["2Dアート","Adobe Photoshop","コンセプトアート・キャラクター・UI素材【AI】","https://www.adobe.com/products/photoshop.html"],
+["3Dアート","Maya","3Dモデリング・アニメーション","https://www.autodesk.com/products/maya/overview"],
+["3Dアート","Blender","3Dモデリング・アニメーション・レンダリング","https://www.blender.org/"],
+["3Dアート","ZBrush","デジタルスカルプト・ハイポリモデル","https://www.maxon.net/zbrush"],
+["マテリアル","Substance 3D Painter","3Dテクスチャペイント【AI】","https://www.adobe.com/products/substance3d/apps/painter.html"],
+["UI/UX","Figma","UIデザイン・プロトタイピング【AI】","https://www.figma.com/"],
+["3Dアート","3ds Max","モデリング・シーン・建築・アセット制作","https://www.autodesk.com/products/3ds-max/overview"],
+["マテリアル","Substance 3D Designer","プロシージャルマテリアル制作","https://www.adobe.com/products/substance3d/apps/designer.html"],
+["2Dアート","CLIP STUDIO PAINT","イラスト・キャラクター・漫画","https://www.clipstudio.net/"],
+["アニメーション","Spine","2Dボーンアニメーション","https://esotericsoftware.com/"],
+["アニメーション","Live2D Cubism","2Dキャラクターアニメーション","https://www.live2d.com/en/cubism/"],
+["VFX","Houdini","プロシージャルモデリング・VFX","https://www.sidefx.com/products/houdini/"],
+["VFX","Unreal Niagara","リアルタイムパーティクル・VFX","https://dev.epicgames.com/documentation/en-us/unreal-engine/niagara-overview"],
+["2Dアート","Krita","デジタルペイント・コンセプトデザイン・テクスチャ制作","https://krita.org/"],
+["2Dアート","GIMP","画像編集・2D素材処理","https://www.gimp.org/"],
+["2Dアート","Procreate","デジタルペイント","https://procreate.com/"],
+["2Dアート","Affinity Photo","画像編集・ペイント・合成・素材処理","https://affinity.serif.com/photo/"],
+]],
+["六、クライアント開発","💻",[
+["ゲームエンジン","Unity","ゲームエンジン・プロトタイピング【AI】","https://unity.com/"],
+["ゲームエンジン","Unreal Engine","ゲームエンジン・プロトタイピング【AI】","https://www.unrealengine.com/"],
+["バージョン管理","Git","分散型バージョン管理システム","https://git-scm.com/"],
+["IDE","Visual Studio","C／C++／C#・ゲームクライアント/サーバー開発【AI】","https://visualstudio.microsoft.com/"],
+["IDE","Visual Studio Code","多言語開発・スクリプト・設定・Web・DevOps【AI】","https://code.visualstudio.com/"],
+["バージョン管理","Perforce Helix Core","大規模ゲームアセットのバージョン管理","https://www.perforce.com/products/helix-core"],
+["IDE","JetBrains Rider","Unity／C#・.NET開発【AI】","https://www.jetbrains.com/rider/"],
+["オーディオ","Wwise","ゲームオーディオミドルウェア","https://www.audiokinetic.com/en/wwise/"],
+["オーディオ","FMOD","ゲームオーディオミドルウェア","https://www.fmod.com/"],
+["バージョン管理","Git LFS","大容量ファイル・アートアセットのバージョン管理","https://git-lfs.com/"],
+["IDE","Xcode","iOS／macOS開発","https://developer.apple.com/xcode/"],
+["IDE","Android Studio","Androidゲーム開発【AI】","https://developer.android.com/studio"],
+["グラフィックスAPI","Vulkan","クロスプラットフォーム低レベルグラフィックスAPI","https://www.vulkan.org/"],
+["グラフィックスAPI","Metal","Appleグラフィックス API","https://developer.apple.com/metal/"],
+["ゲームエンジン","Godot","オープンソース2D/3Dゲームエンジン","https://godotengine.org/"],
+["ゲームエンジン","Cocos","2D/3Dゲーム開発エンジン","https://www.cocos.com/"],
+["パフォーマンス分析","RenderDoc","グラフィックスデバッグ・GPU解析","https://renderdoc.org/"],
+["パフォーマンス分析","PIX","DirectXグラフィックス・パフォーマンス分析","https://devblogs.microsoft.com/pix/"],
+["IDE","IntelliJ IDEA","Java開発【AI】","https://www.jetbrains.com/idea/"],
+["IDE","CLion","C／C++開発【AI】","https://www.jetbrains.com/clion/"],
+["IDE","Eclipse","Java等の開発","https://www.eclipse.org/"],
+["IDE","Qt Creator","C++／Qt開発","https://www.qt.io/product/development-tools"],
+["エディタ","Vim","Linuxサーバー・コード編集","https://www.vim.org/"],
+["エディタ","Neovim","ターミナルでのコード編集","https://neovim.io/"],
+["エディタ","Emacs","コード編集・開発環境","https://www.gnu.org/software/emacs/"],
+]],
+["七、ゲームサーバー・バックエンド","🌐",[
+["データベース","PostgreSQL","リレーショナルデータベース","https://www.postgresql.org/"],
+["データベース","MySQL","リレーショナルデータベース","https://www.mysql.com/"],
+["キャッシュ","Redis","キャッシュ・高速データストア【AI】","https://redis.io/"],
+["ネットワーク","Photon","リアルタイムマルチプレイヤーネットワークプラットフォーム","https://www.photonengine.com/"],
+["ゲームバックエンド","Firebase","バックエンドクラウドサービス・認証・データ【AI】","https://firebase.google.com/"],
+["ゲームバックエンド","PlayFab","ゲームバックエンドサービス","https://playfab.com/"],
+["API開発","Postman","APIデバッグ・テスト・ドキュメント【AI】","https://www.postman.com/"],
+["データベース","MongoDB","NoSQLデータベース【AI】","https://www.mongodb.com/"],
+["通信","gRPC","高性能RPCフレームワーク","https://grpc.io/"],
+["認証","Auth0","認証・認可","https://auth0.com/"],
+["サーバーホスティング","Amazon GameLift Servers","ゲームサーバーホスティング・スケーリング","https://aws.amazon.com/gamelift/"],
+["DB管理ツール","HeidiSQL","汎用データベース管理ツール","https://www.heidisql.com/"],
+["DB管理ツール","DBeaver","汎用データベース管理ツール","https://dbeaver.io/"],
+["ネットワーク","Mirror","Unity用マルチプレイヤーネットワークフレームワーク","https://mirror-networking.com/"],
+["ゲームバックエンド","Nakama","オープンソースゲームサーバープラットフォーム","https://heroiclabs.com/nakama/"],
+["ネットワーク","Colyseus","リアルタイムマルチプレイヤーゲームサーバーフレームワーク","https://www.colyseus.io/"],
+["通信","Socket.IO","リアルタイム双方向通信","https://socket.io/"],
+["API開発","Swagger／OpenAPI","API仕様・ドキュメント・コード生成","https://swagger.io/"],
+["DB管理ツール","pgAdmin","PostgreSQL管理ツール","https://www.pgadmin.org/"],
+["DB管理ツール","MySQL Workbench","MySQL設計・管理ツール","https://www.mysql.com/products/workbench/"],
+["API開発","Insomnia","APIデバッグ・テストクライアント","https://insomnia.rest/"],
+]],
+["八、インフラ・プラットフォーム","☁️",[
+["クラウド","AWS","クラウドコンピューティングプラットフォーム【AI】","https://aws.amazon.com/"],
+["コンテナ","Docker","コンテナプラットフォーム【AI】","https://www.docker.com/"],
+["オーケストレーション","Kubernetes","コンテナオーケストレーションプラットフォーム","https://kubernetes.io/"],
+["CI/CD","GitHub Actions","自動化・CI/CD","https://github.com/features/actions"],
+["IaC","Terraform","Infrastructure as Code","https://developer.hashicorp.com/terraform"],
+["Web/プロキシ","NGINX","Webサーバー・リバースプロキシ","https://nginx.org/"],
+["クラウド","Google Cloud","クラウドコンピューティングプラットフォーム【AI】","https://cloud.google.com/"],
+["クラウド","Microsoft Azure","クラウドコンピューティングプラットフォーム【AI】","https://azure.microsoft.com/"],
+["監視","Prometheus","メトリクス監視・アラート","https://prometheus.io/"],
+["可視化","Grafana","監視データの可視化【AI】","https://grafana.com/"],
+["エラートラッキング","Sentry","エラー・クラッシュトラッキング【AI】","https://sentry.io/"],
+["CDN/ネットワーク","Cloudflare","CDN・DNS・ネットワークセキュリティ【AI】","https://www.cloudflare.com/"],
+["CI/CD","Jenkins","継続的インテグレーション・デリバリー","https://www.jenkins.io/"],
+["CI/CD","GitLab CI/CD","継続的インテグレーション・デリバリー【AI】","https://about.gitlab.com/solutions/continuous-integration/"],
+["オブザーバビリティ","Datadog","監視・ログ・APM【AI】","https://www.datadoghq.com/"],
+["ログ","ELK Stack","ログ収集・検索・可視化【AI】","https://www.elastic.co/elastic-stack"],
+["自動化","Ansible","構成管理・自動化【AI】","https://www.ansible.com/"],
+["コード品質","ESLint","JavaScript/TypeScript静的解析","https://eslint.org/"],
+["コード品質","SonarQube","静的解析・コード品質ゲート【AI】","https://www.sonarsource.com/products/sonarqube/"],
+["コンテナ","Docker Compose","マルチコンテナ開発環境オーケストレーション","https://docs.docker.com/compose/"],
+["GitOps","Argo CD","Kubernetes継続的デリバリー","https://argo-cd.readthedocs.io/"],
+["ロードバランサー","HAProxy","高性能ロードバランサー・プロキシ","https://www.haproxy.org/"],
+["コンテナ","Podman","オープンソースコンテナエンジン","https://podman.io/"],
+["CI/CD","TeamCity","ビルド・継続的インテグレーションサーバー","https://www.jetbrains.com/teamcity/"],
+["CI/CD","Azure Pipelines","クラウドビルド・リリースパイプライン","https://azure.microsoft.com/products/devops/pipelines"],
+["コード品質","SonarCloud","クラウド静的解析・コード品質【AI】","https://www.sonarsource.com/products/sonarcloud/"],
+["コンテナ","Podman Compose","Podmanマルチコンテナ環境オーケストレーション","https://github.com/containers/podman-compose"],
+["コード品質","Checkstyle","Javaコーディング規約チェック","https://checkstyle.org/"],
+["ログ","OpenSearch","オープンソース検索・ログ分析","https://opensearch.org/"],
+["ログ","Loki","軽量ログ集約（Grafana系）","https://grafana.com/oss/loki/"],
+]],
+["九、データ・AI","🤖",[
+["LLM","OpenAI API","生成AI・LLM API【AI】","https://platform.openai.com/"],
+["LLM","Anthropic API","生成AI・LLM API【AI】","https://www.anthropic.com/api"],
+["データウェアハウス","Snowflake","クラウドデータプラットフォーム・データウェアハウス【AI】","https://www.snowflake.com/"],
+["ストリーム処理","Apache Kafka","イベントストリーム・メッセージングプラットフォーム","https://kafka.apache.org/"],
+["データパイプライン","Apache Airflow","ワークフロー・データパイプラインのスケジューリング","https://airflow.apache.org/"],
+["分析","Jupyter","インタラクティブデータ分析【AI】","https://jupyter.org/"],
+["機械学習","PyTorch","機械学習フレームワーク【AI】","https://pytorch.org/"],
+["機械学習","TensorFlow","機械学習フレームワーク【AI】","https://www.tensorflow.org/"],
+["データモデリング","dbt","データ変換・モデリング","https://www.getdbt.com/"],
+["LLM","LangChain","LLMアプリケーション開発フレームワーク【AI】","https://www.langchain.com/"],
+["BI","Metabase","オープンソースBI・データ可視化【AI】","https://www.metabase.com/"],
+["MLOps","MLflow","実験・モデルライフサイクル管理【AI】","https://mlflow.org/"],
+["ストリーム処理","Apache Flink","リアルタイムストリーム処理","https://flink.apache.org/"],
+]],
+["十、QA・セキュリティ","🛡️",[
+["自動テスト","Selenium","Web自動テスト","https://www.selenium.dev/"],
+["自動テスト","Playwright","Web自動テスト","https://playwright.dev/"],
+["パフォーマンステスト","JMeter","負荷・パフォーマンステスト","https://jmeter.apache.org/"],
+["エンドポイントセキュリティ","CrowdStrike","エンドポイントセキュリティ・脅威検知【AI】","https://www.crowdstrike.com/"],
+["アンチチート","Easy Anti-Cheat","ゲームアンチチート","https://www.easy.ac/"],
+["アンチチート","BattlEye","ゲームアンチチート","https://www.battleye.com/"],
+["テスト管理","TestRail","テストケース・テスト管理","https://www.testrail.com/"],
+["パフォーマンステスト","k6","スクリプトベースの負荷テスト【AI】","https://k6.io/"],
+["SIEM","Elastic Security","セキュリティ分析・SIEM【AI】","https://www.elastic.co/security"],
+["パフォーマンステスト","Locust","Python分散負荷テスト","https://locust.io/"],
+]],
+["十一、ゲーム運営・カスタマーサポート","📡",[
+["コミュニティ","Discord","ゲームコミュニティ・リアルタイムコミュニケーション","https://discord.com/"],
+["カスタマーサポート","Zendesk","カスタマーサポート・チケット管理【AI】","https://www.zendesk.com/"],
+["インシデント管理","PagerDuty","アラート・インシデント対応【AI】","https://www.pagerduty.com/"],
+["CRMサポート","Salesforce Service Cloud","カスタマーサポート・CRM【AI】","https://www.salesforce.com/service/"],
+["カスタマーサポート","Freshdesk","カスタマーサポート・チケット管理【AI】","https://www.freshworks.com/freshdesk/"],
+["コンテンツ管理","Contentful","CMS・コンテンツ管理【AI】","https://www.contentful.com/"],
+]],
+["十二、マーケティング・ビジネス","📈",[
+["広告","Google Ads","オンライン広告配信【AI】","https://ads.google.com/"],
+["広告","Meta Ads Manager","SNS広告配信【AI】","https://www.facebook.com/business/tools/ads-manager"],
+["決済","Stripe","手数料3.6% オンライン決済・課金【AI】","https://stripe.com/"],
+["CRM","Salesforce","営業・顧客関係管理【AI】","https://www.salesforce.com/"],
+["広告分析","AppsFlyer","モバイル広告アトリビューション・分析","https://www.appsflyer.com/"],
+["広告分析","Adjust","モバイル広告アトリビューション・分析","https://www.adjust.com/"],
+["ASO/市場分析","Sensor Tower","モバイル市場・ASO分析","https://sensortower.com/"],
+["サブスクリプション","RevenueCat","モバイルサブスクリプション・IAP管理","https://www.revenuecat.com/"],
+["決済","Xsolla","手数料5.0% ゲーム決済・マネタイズプラットフォーム","https://xsolla.com/"],
+["SEO","Semrush","SEO・市場分析【AI】","https://www.semrush.com/"],
+["SEO","Ahrefs","SEO・サイト分析【AI】","https://ahrefs.com/"],
+]],
+["十三、社内IT｜ID・アクセス管理","🔑",[
+["ID管理","Active Directory","ディレクトリサービス・認証","https://learn.microsoft.com/windows-server/identity/ad-ds/get-started/virtual-dc/active-directory-domain-services-overview"],
+["ID管理","Microsoft Entra ID","ID・アカウント管理【AI】","https://www.microsoft.com/security/business/identity-access/microsoft-entra-id"],
+["ディレクトリサービス","LDAP","軽量ディレクトリアクセスプロトコル","https://ldap.com/"],
+["ディレクトリサービス","LDAPS","LDAP over SSL/TLS・暗号化ディレクトリアクセス","https://ldap.com/ldaps-vs-ldap-vs-starttls/"],
+["ディレクトリサービス","OpenLDAP","オープンソースLDAPディレクトリサービス","https://www.openldap.org/"],
+["ディレクトリサービス","SSSD","Linuxシステムセキュリティサービスデーモン（AD/LDAP連携）","https://sssd.io/"],
+["認証プロトコル","Kerberos","ネットワーク認証プロトコル","https://web.mit.edu/kerberos/"],
+]],
+["十四、社内IT｜リモートアクセス・VPN","🔒",[
+["SSH／ターミナルクライアント","SSH","リモート安全ログインプロトコル","https://www.ssh.com/academy/ssh/protocol"],
+["SSH／ターミナルクライアント","OpenSSH","オープンソースSSH実装","https://www.openssh.com/"],
+["SSH／ターミナルクライアント","PuTTY","Windows用SSH／Telnetクライアント","https://www.chiark.greenend.org.uk/~sgtatham/putty/"],
+["SSH／ターミナルクライアント","WinSCP","Windows用SFTP／SCPファイル転送","https://winscp.net/"],
+["SSH／ターミナルクライアント","Tera Term","ターミナルエミュレータ・SSH／シリアルクライアント","https://teratermproject.github.io/"],
+["SSH／ターミナルクライアント","RLogin","Windows用SSH／Telnet／シリアルターミナル","https://github.com/kmiya-culti/RLogin"],
+["VPN","VPN","仮想プライベートネットワーク・リモートアクセス","https://www.openvpn.net/"],
+["VPN","WireGuard","軽量高性能VPNプロトコル","https://www.wireguard.com/"],
+["VPN","OpenVPN","オープンソースVPNソフトウェア","https://openvpn.net/"],
+["VPN","SSL VPN","SSL/TLSベースのリモートアクセスVPN","https://en.wikipedia.org/wiki/SSL_VPN"],
+["VPN","IPsec","ネットワーク層暗号化・VPNトンネリングプロトコル","https://www.rfc-editor.org/rfc/rfc4301"],
+["VPN","SoftEther VPN","マルチプロトコル対応のオープンソースVPNサーバー","https://www.softether.org/"],
+]],
+["十五、社内IT｜ネットワーク基盤・セキュリティ","🌐",[
+["ネットワークプロトコル","TCP/IP","インターネット基盤プロトコル群","https://www.ietf.org/"],
+["ネットワークプロトコル","HTTP","ハイパーテキスト転送プロトコル","https://developer.mozilla.org/docs/Web/HTTP"],
+["ネットワークプロトコル","HTTPS","暗号化HTTPプロトコル","https://developer.mozilla.org/docs/Glossary/HTTPS"],
+["ネットワークプロトコル","DNS","ドメイン名解決サービス","https://www.isc.org/bind/"],
+["ネットワークプロトコル","DHCP","動的ホスト構成プロトコル","https://www.isc.org/dhcp/"],
+["ネットワークプロトコル","NAT","ネットワークアドレス変換","https://www.rfc-editor.org/rfc/rfc3022"],
+["ネットワークプロトコル","NTP","ネットワーク時刻同期プロトコル","https://www.ntp.org/"],
+["ネットワークセキュリティ","Firewall","ファイアウォール・ネットワークアクセス制御","https://www.pfsense.org/"],
+["ネットワークセキュリティ","WAF","Webアプリケーションファイアウォール","https://owasp.org/www-project-modsecurity-waf/"],
+["ネットワークセキュリティ","Proxy","プロキシサーバー","https://www.squid-cache.org/"],
+["負荷分散","Load Balancer","ロードバランサー（汎用）","https://www.haproxy.org/"],
+]],
+["十六、社内IT｜ファイル共有・資産管理","🗄️",[
+["CDN","CDN","コンテンツデリバリーネットワーク（汎用）","https://www.cloudflare.com/learning/cdn/what-is-a-cdn/"],
+["ファイル転送・共有","SFTP","SSHファイル転送プロトコル","https://www.ssh.com/academy/ssh/sftp"],
+["ファイル転送・共有","SCP","SSHベースの安全なファイルコピープロトコル","https://man.openbsd.org/scp"],
+["ファイル転送・共有","FileZilla","FTP／FTPS／SFTPファイル転送クライアント","https://filezilla-project.org/"],
+["ファイル転送・共有","SMB","Windowsファイル・印刷共有プロトコル","https://learn.microsoft.com/windows/win32/fileio/microsoft-smb-protocol-and-cifs-protocol-overview"],
+["ファイル転送・共有","Samba","クロスプラットフォームSMB/CIFSファイル共有","https://www.samba.org/"],
+["ファイル転送・共有","NFS","Unix/Linuxネットワークファイルシステム","https://datatracker.ietf.org/doc/html/rfc7530"],
+["資産・生産性管理","Microsoft Intune","MDM・デバイス管理【AI】","https://www.microsoft.com/security/business/microsoft-intune"],
+["資産・生産性管理","ServiceNow","ITSM・サービス管理【AI】","https://www.servicenow.com/"],
+["資産・生産性管理","Microsoft 365","Office生産性スイート・メール・クラウドストレージ【AI】","https://www.microsoft.com/microsoft-365"],
+["資産・生産性管理","VirtualBox","仮想マシン・OS仮想化+【オンプレ】","https://www.virtualbox.org/"],
+["監視","Zabbix","インフラ監視","https://www.zabbix.com/"],
+]],
+];
+
+const app=document.getElementById("app");
+data.forEach(([section,emoji,items])=>{
+  const el=document.createElement("section");
+  el.innerHTML=`<h2>${emoji} ${section}</h2><div class="grid"></div>`;
+  const grid=el.querySelector(".grid");
+  items.forEach(([role,name,desc,url])=>{
+    const d=document.createElement("div");
+    d.className="item";
+    d.innerHTML=`<div class="icon">${emoji}</div><div><div><a href="${url}" target="_blank" rel="noopener noreferrer">${name}</a></div><div class="desc">${role}｜${desc}</div></div>`;
+    grid.appendChild(d);
+  });
+  app.appendChild(el);
+});
+</script>
+</body>
+</html>
